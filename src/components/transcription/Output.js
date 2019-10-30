@@ -1,60 +1,35 @@
-import React, { useState, useEffect } from "react"
-import io from "socket.io-client"
-import {AudioStreamer, interimString, finalString} from "../modules/AudioStreamer"
-
+import React from "react"
+import { AudioStreamer } from "../modules/AudioStreamer"
 
 const Output = props => {
 
-    const [interimSentence, setInterimSentence] = useState([])
-    const [finalOutput, setFinalOutput] = useState([])
-    // const [finalSentence, setFinalSentence] = useState([])
+    const count = (main_str, sub_str) => {
+        main_str += '';
+        sub_str += '';
 
-    const finalArray = []
+        if (sub_str.length <= 0)
+        {
+            return main_str.length + 1;
+        }
 
-    useEffect(() => {
-        const hello = 0
-        // finalArray.push(props.finalSentence)
-        // sessionStorage.setItem('final', finalArray)
-        // setFinalOutput(oldArray => [...oldArray, props.finalSentence])
-        // if (props.finalSentence.length > 0) {
-        //     setFinalOutput(finalOutput.concat(props.finalSentence))
-        // }
-    })
+        let subStr = sub_str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        // return (main_str.match(new RegExp(subStr, 'gi')) || []).length;
+        console.log((main_str.match(new RegExp(subStr, 'gi')) || []).length)
+    }
 
-        // const [finalOutput, setFinalOutput] = useState(
-        //   () => JSON.parse(localStorage.getItem('finalOutput'))
-        // );
-        // useEffect(() => {
-        //     setFinalOutput(props.finalSentence)
-        //   localStorage.setItem('finalOutput', JSON.stringify(finalOutput));
-        // }, ['finalOutput', finalOutput]);
-        // // return [finalOutput, setFinalOutput];
+    const stopButtonClick = () => {
+        AudioStreamer.stopRecording()
+        count(props.finalOutput, "the")
+    }
 
-
-
-    // useEffect(() => {
-    //     sessionStorage.setItem('final_output', finalArray.push(props.finalSentence))
-    //     // setFinalOutput(finalArray)
-    //     // assignFinalOutput()
-
-    // })
-    // const assignFinalOutput = ( string ) => {
-    //     localStorage.setItem( 'finalSentence', string );
-    //     setFinalOutput(string);
-    // }
-
-
-    console.log('finalSentence', props.finalSentence)
-    console.log('props', props)
-    console.log('finalArray', finalArray)
     return (
         <>
             <article className="speechOutput">
                 <button onClick={AudioStreamer.startRecording}>start</button>
-                <button onClick={AudioStreamer.stopRecording}>stop</button>
-                <p>interim{props.interimSentence}</p>
-                <p>final{props.finalSentence}</p>
-                <p>final{finalOutput}</p>
+                <button onClick={stopButtonClick}>stop</button>
+                <p>interim {props.interimSentence}</p>
+                <p>final {props.finalSentence}</p>
+                <p>final output {props.finalOutput}</p>
             </article>
 
         </>

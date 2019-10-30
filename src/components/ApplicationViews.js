@@ -1,22 +1,16 @@
-import React, { useState, useEffect, useRef } from "react"
+import React, { useState } from "react"
 import { Route, withRouter } from "react-router-dom"
-import io from "socket.io-client";
 import Register from "./auth/Register"
 import Login from "./auth/Login"
 import Dictaphone from "./transcription/Dictaphone"
 import Output from "./transcription/Output"
-import  { AudioStreamer, interimString, finalString } from "./modules/AudioStreamer"
-// import { interimString, finalString } from "./modules/AudioStreamer"
-// import {socket} from "./Oratio"
-
-// const newSentenceState = null
 
 const ApplicationViews = (props) => {
 
     const [interimSentence, setInterimSentence] = useState([])
     const [finalSentence, setFinalSentence] = useState([])
+    const [finalOutput, setFinalOutput] = useState([])
 
-    const mounted = useRef()
     window.newSentenceState = (data) => {
         // console.log(data.results[0].alternatives[0].transcript);
         var dataFinal = undefined || data.results[0].isFinal;
@@ -29,33 +23,13 @@ const ApplicationViews = (props) => {
         } else if (dataFinal === true) {
             //log final string
             let finalString = data.results[0].alternatives[0].transcript;
-            if (!mounted.current) {
-                mounted.current = true
-            } else {
-
-                setFinalSentence(finalString)
-            }
             console.log("Google Speech sent 'final' Sentence and it is:");
             console.log(finalString);
-
-            // finalWord = true;
-            // removeLastSentence = false;
+            setFinalSentence(finalString)
+            setFinalOutput(finalOutput.concat(finalSentence))
         }
     };
 
-    useEffect(() => {
-        // setInterimSentence(AudioStreamer.initSpeechData())
-        // setFinalSentence(finalString)
-    }, [])
-
-    // const [interimSentence, setInterimSentence] = useState([])
-    // const [finalSentence, setFinalSentence] = useState([])
-
-// console.log(finalSentence)
-
-    console.log('props', props)
-    // console.log('interim', interimSentence)
-    // console.log('interim', interimSentence)
     return (
         <React.Fragment>
 
@@ -73,10 +47,10 @@ const ApplicationViews = (props) => {
             <Route
                 exact path="/" render={props => {
                     return <Output {...props}
-
                         interimSentence={interimSentence}
                         finalSentence={finalSentence}
-                        />
+                        finalOutput={finalOutput}
+                    />
                 }}
             />
             <Route
@@ -90,5 +64,5 @@ const ApplicationViews = (props) => {
 }
 
 export default withRouter(ApplicationViews)
-// export {this.newSentenceState}
+
 

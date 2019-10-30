@@ -24,11 +24,11 @@ class Dictaphone extends Component {
 
   render() {
     const { transcript,
-            resetTranscript,
+            // resetTranscript,
             startListening,
             stopListening,
             browserSupportsSpeechRecognition,
-            recognition
+            // recognition
     } = this.props
 
     if (!browserSupportsSpeechRecognition) {

@@ -1,8 +1,7 @@
 import io from "socket.io-client";
-// import {newSentenceState} from "../transcription/Output"
 
  // connection to socket
-const socket = io.connect('http://localhost:1337')
+const socket = io('http://localhost:1337', {transports: ['websocket']})
 socket.on('connect', () => {
      console.log('Successfully connected!');
 });
@@ -24,39 +23,39 @@ socket.on('speechData', function (data) {
 });
 
 
- //================= CONFIG =================
- // Stream Audio
- let bufferSize = 2048,
-     AudioContext,
-     context,
-     processor,
-     input,
-     globalStream,
-     finalString,
-     interimString
+//================= CONFIG =================
+// Stream Audio
+let bufferSize = 2048,
+    AudioContext,
+    context,
+    processor,
+    input,
+    globalStream,
+    finalString,
+    interimString
 
- //vars
- let finalWord = false,
-     streamStreaming = false,
-     removeLastSentence = true
-     // audioElement = document.querySelector('audio'),
-     // resultText = document.getElementById('ResultText'),
-     // recognitionDataArray = [],
-     // interimSentence = '',
-     // finalSentence = ''
-     // internCurrentHoCount = 0,
-     // internTotalHoCount = 0,
-     // publicTotalHoCount = 0;
+//vars
+let streamStreaming = false
+    // finalWord = false
+    // removeLastSentence = true
+    // audioElement = document.querySelector('audio'),
+    // resultText = document.getElementById('ResultText'),
+    // recognitionDataArray = [],
+    // interimSentence = '',
+    // finalSentence = ''
+    // internCurrentHoCount = 0,
+    // internTotalHoCount = 0,
+    // publicTotalHoCount = 0;
 
- let params = {
-     startedRecording: false,
- }
+let params = {
+    startedRecording: false,
+}
 
- //audioStream constraints
- const constraints = {
-     audio: true,
-     video: false
- };
+//audioStream constraints
+const constraints = {
+    audio: true,
+    video: false
+};
 
 const AudioStreamer = {
 
@@ -180,11 +179,11 @@ const AudioStreamer = {
     // };
 
     downsampleBuffer: function (buffer, sampleRate, outSampleRate) {
-        if (outSampleRate == sampleRate) {
+        if (outSampleRate === sampleRate) {
             return buffer;
         }
         if (outSampleRate > sampleRate) {
-            throw "downsampling rate show be smaller than original sample rate";
+            throw new Error("downsampling rate show be smaller than original sample rate")
         }
         const sampleRateRatio = sampleRate / outSampleRate;
         const newLength = Math.round(buffer.length / sampleRateRatio);
