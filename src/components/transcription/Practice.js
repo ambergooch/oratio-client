@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Highlighter from 'react-highlight-words'
 import { AudioStreamer } from '../modules/AudioStreamer'
-// import Practice from '../practice/Practice'
+import NewSpeechModal from '../speech/NewSpeechModal'
 import mic from '../../images/mic.gif'
 import micAnimate from '../../images/micAnimate.gif'
 
@@ -101,6 +101,7 @@ const Output = props => {
 
     return (
         <>
+          <NewSpeechModal />
             <article className='speechOutput'>
             {!isListening ?
                 <img onClick={startButtonClick} alt="Start" id="start_img" src={mic}></img>

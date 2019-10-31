@@ -38,7 +38,7 @@ export default Object.create(null, {
     }
   },
   post: {
-    value: function (name, newPost) {
+    value: function (name, newObject) {
       return fetch(`${remoteURL}/${name}`, {
         "method": "POST",
         "headers": {
@@ -46,20 +46,20 @@ export default Object.create(null, {
           "Content-Type": "application/json",
           "Authorization": `Token ${localStorage.getItem("token")}`
         },
-        body: JSON.stringify(newPost)
+        body: JSON.stringify(newObject)
       }).then(data => data.json())
     }
   },
   put: {
-    value: function(name, updatedPost) {
-      return fetch(`${remoteURL}/${name}/${updatedPost.id}`, {
+    value: function(name, updatedObject) {
+      return fetch(`${remoteURL}/${name}/${updatedObject.id}`, {
         "method": "PUT",
         "headers": {
           "Accept": "application/json",
           "Content-Type": "application/json",
           "Authorization": `Token ${localStorage.getItem("token")}`
         },
-        body: JSON.stringify(updatedPost)
+        body: JSON.stringify(updatedObject)
       })
     }
   },
