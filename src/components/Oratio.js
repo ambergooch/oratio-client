@@ -1,15 +1,21 @@
 import React from "react"
-// import NavBar from "./nav/NavBar"
+import { Route } from "react-router-dom"
+import NavBar from "./nav/NavBar"
 import ApplicationViews from "./ApplicationViews"
+import useSimpleAuth from "../hooks/ui/useSimpleAuth"
 
 
 const Oratio = () => {
 
+    const { isAuthenticated } = useSimpleAuth()
+
     return (
         <React.Fragment>
-            {/* <Route render={props => (
+            {isAuthenticated() ?
+            <Route render={props => (
                 <NavBar {...props} />
-            )} /> */}
+            )} />
+            : ""}
             <ApplicationViews />
         </React.Fragment>
     )

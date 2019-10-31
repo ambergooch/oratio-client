@@ -3,18 +3,18 @@ import { Route, withRouter } from "react-router-dom"
 import Register from "./auth/Register"
 import Login from "./auth/Login"
 import Dictaphone from "./transcription/Dictaphone"
-import Output from "./transcription/Output"
+import Output from "./transcription/Practice"
+import LandingPage from "./landing/LandingPage"
 
 const ApplicationViews = (props) => {
 
-    const [interimSentence, setInterimSentence] = useState([])
-    const [finalSentence, setFinalSentence] = useState([])
-    const [finalOutput, setFinalOutput] = useState([])
+    const [interimSentence, setInterimSentence] = useState('')
+    const [finalSentence, setFinalSentence] = useState('')
+    const [finalOutput, setFinalOutput] = useState('')
 
     window.newSentenceState = (data) => {
         // console.log(data.results[0].alternatives[0].transcript);
         var dataFinal = undefined || data.results[0].isFinal;
-
         if (dataFinal === false) {
             let interimString = data.results[0].alternatives[0].transcript;
             console.log(interimString)
@@ -26,13 +26,19 @@ const ApplicationViews = (props) => {
             console.log("Google Speech sent 'final' Sentence and it is:");
             console.log(finalString);
             setFinalSentence(finalString)
-            setFinalOutput(finalOutput.concat(finalSentence))
+            setFinalOutput(finalOutput.concat(finalString))
         }
     };
+
 
     return (
         <React.Fragment>
 
+            <Route
+                path="/landing" render={props => {
+                    return <LandingPage {...props} />
+                }}
+            />
             <Route
                 path="/register" render={props => {
                     return <Register {...props} />

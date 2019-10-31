@@ -1,17 +1,18 @@
 import React, { useRef } from "react"
 import { withRouter } from "react-router-dom"
 import useSimpleAuth from "../../hooks/ui/useSimpleAuth"
+import { Button, Form, Grid, Header, Image, Message, Segment, Input } from 'semantic-ui-react'
+
 // import "./Login.css"
 
 
 const Register = props => {
-    const email = useRef()
     const userName = useRef()
-    const lastName = useRef()
+    const email = useRef()
     const password = useRef()
-    const firstName = useRef()
-    const familyMembers = useRef()
     const verifyPassword = useRef()
+    const firstName = useRef()
+    const lastName = useRef()
     const { register } = useSimpleAuth()
 
     const handleRegister = (e) => {
@@ -19,85 +20,78 @@ const Register = props => {
 
         const newUser = {
             "username": userName.current.value,
-            "first_name": firstName.current.value,
-            "last_name": lastName.current.value,
-            "family_members": familyMembers.current.value,
             "email": email.current.value,
-            "password": password.current.value
+            "password": password.current.value,
+            "first_name": firstName.current.value,
+            "last_name": lastName.current.value
         }
 
         register(newUser).then(() => {
-            props.history.push({
-                pathname: "/"
-            })
+            window.location = "/"
         })
     }
 
     return (
-        <main style={{ textAlign: "center" }}>
-            <form className="form--login" onSubmit={handleRegister}>
-                <h1 className="h3 mb-3 font-weight-normal">Register to use Saturday in the Park</h1>
-                <fieldset>
-                    <label htmlFor="userName"> Username </label>
-                    <input ref={userName} type="text"
-                        name="userName"
-                        className="form-control"
-                        placeholder="Username"
-                        required autoFocus />
-                </fieldset>
-                <fieldset>
-                    <label htmlFor="firstName"> First Name </label>
-                    <input ref={firstName} type="text"
-                        name="firstName"
-                        className="form-control"
-                        placeholder="First name"
-                        required autoFocus />
-                </fieldset>
-                <fieldset>
-                    <label htmlFor="lastName"> Last Name </label>
-                    <input ref={lastName} type="text"
-                        name="lastName"
-                        className="form-control"
-                        placeholder="Last name"
-                        required />
-                </fieldset>
-                <fieldset>
-                    <label htmlFor="inputEmail"> Email address </label>
-                    <input ref={email} type="email"
-                        name="email"
-                        className="form-control"
-                        placeholder="Email address"
-                        required />
-                </fieldset>
-                <fieldset>
-                    <label htmlFor="inputEmail"> Family members </label>
-                    <input ref={familyMembers} type="number"
-                        name="familyMembers"
-                        className="form-control"
-                        required />
-                </fieldset>
-                <fieldset>
-                    <label htmlFor="inputPassword"> Password </label>
-                    <input ref={password} type="password"
-                        name="password"
-                        className="form-control"
-                        placeholder="Password"
-                        required />
-                </fieldset>
-                <fieldset>
-                    <label htmlFor="verifyPassword"> Verify Password </label>
-                    <input ref={verifyPassword} type="password"
-                        name="verifyPassword"
-                        className="form-control"
-                        placeholder="Verify password"
-                        required />
-                </fieldset>
-                <fieldset>
-                    <button type="submit">
-                        Sign in
-                    </button>
-                </fieldset>
-            </form>
+        <main style={{textAlign:"center"}}>
+            <Grid textAlign='center' style={{ height: '160vh' }} verticalAlign='middle'>
+                <Grid.Column style={{ maxWidth: 600 }}>
+                <Header as='h2' color='teal' textAlign='center'>
+                    <Image src='/logo.png' /> Register for Oratio
+                </Header>
+                <Form size='huge' onSubmit={handleRegister}>
+                    <Segment stacked size='huge' style={{ height: 740, borderRadius: '10px' }}>
+                        <Form.Field style={{margin: 40}}>
+                            <input fluid ref={userName}
+                                type="text"
+                                className="form-control"
+                                placeholder='Username'
+                                required autoFocus/>
+                        </Form.Field>
+                        <Form.Field style={{margin: 40}}>
+                            <input fluid ref={email}
+                                type="email"
+                                className="form-control"
+                                placeholder='Email'
+                                required />
+                        </Form.Field>
+                        <Form.Field style={{margin: 40}}>
+                            <input fluid ref={password}
+                                type="password"
+                                className="form-control"
+                                placeholder='Password'
+                                required />
+                        </Form.Field>
+                        <Form.Field style={{margin: 40}}>
+                            <input fluid ref={verifyPassword}
+                                type="password"
+                                className="form-control"
+                                placeholder='Verify Password'
+                                required />
+                        </Form.Field>
+                        <Form.Field style={{margin: 40}}>
+                            <input fluid ref={firstName}
+                                type="text"
+                                className="form-control"
+                                placeholder='First Name'
+                                required />
+                        </Form.Field>
+                        <Form.Field style={{margin: 40}}>
+                            <input fluid ref={lastName}
+                                type="text"
+                                className="form-control"
+                                placeholder='Last Name'
+                                required />
+                        </Form.Field>
+                    <Button type='submit' color='teal' fluid size='huge'>
+                        Register
+                    </Button>
+                    </Segment>
+                </Form>
+                <Message>
+                    Already registered? <a href='/login'>Sign In</a>
+                </Message>
+                </Grid.Column>
+            </Grid>
         </main>
     )
 }

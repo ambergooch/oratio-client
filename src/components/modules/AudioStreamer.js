@@ -19,6 +19,7 @@ socket.on('receive', (data) => {
 })
 
 socket.on('speechData', function (data) {
+    console.log(data)
     window.newSentenceState(data)
 });
 
@@ -109,7 +110,6 @@ const AudioStreamer = {
 
     startRecording: function () {
         console.log("Listening...")
-        console.log(this)
         if (params.startedRecording){return}
         params.startedRecording = true;
         AudioStreamer.initRecording()
@@ -119,7 +119,6 @@ const AudioStreamer = {
         // Clear the listeners (prevents issue if opening and closing repeatedly)
         socket.emit('endGoogleCloudStream', '');
         socket.disconnect('speechData');
-        socket.disconnect('startGoogleCloudStream')
         socket.off('googleCloudStreamError');
         let tracks = globalStream ? globalStream.getTracks() : null;
             let track = tracks ? tracks[0] : null;
@@ -149,9 +148,10 @@ const AudioStreamer = {
     },
 
     stopRecording: function () {
+        // stop disconnecting if already disconnected
         if (!streamStreaming) {
             return console.log('not connected')
-        } // stop disconnecting if already disconnected;
+        }
 
         streamStreaming = false;
         socket.emit('endGoogleCloudStream', '');

@@ -1,9 +1,12 @@
 import React, { useRef } from "react"
 import useSimpleAuth from "../../hooks/ui/useSimpleAuth";
+import { Button, Form, Grid, Header, Image, Message, Segment, Input } from 'semantic-ui-react'
+
 // import "./Login.css"
 
 
 const Login = props => {
+
     const username = useRef()
     const password = useRef()
     const { login } = useSimpleAuth()
@@ -23,38 +26,57 @@ const Login = props => {
 
         login(credentials)
             .then(() => {
-                props.history.push({
-                    pathname: "/attractions"
-                })
+                window.location = "/"
             })
     }
 
     return (
         <main style={{textAlign:"center"}}>
-            <form className="form--login" onSubmit={handleLogin}>
-                <h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>
-                <fieldset>
-                    <label htmlFor="inputEmail"> Email address </label>
-                    <input ref={username} type="username"
-                        className="form-control"
-                        placeholder="Email address"
-                        required autoFocus />
-                </fieldset>
-                <fieldset>
-                    <label htmlFor="inputPassword"> Password </label>
-                    <input ref={password} type="password"
-                        id="password"
-                        className="form-control"
-                        placeholder="Password"
-                        required />
-                </fieldset>
-                <fieldset>
-                    <button type="submit">
-                        Sign in
-                    </button>
-                </fieldset>
-            </form>
+            <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
+                <Grid.Column style={{ maxWidth: 450 }}>
+                <Header as='h2' color='teal' textAlign='center'>
+                    <Image src='/logo.png' /> Please Sign In
+                </Header>
+                <Form size='huge' onSubmit={handleLogin}>
+                    <Segment stacked size='huge' style={{ height: 350, borderRadius: '10px' }}>
+                        <Form.Field style={{marginTop: 40, marginBottom: 30}}>
+                            <input ref={username}
+                                type="text"
+                                className="form-control"
+                                placeholder='Username'
+                                required autoFocus/>
+                        </Form.Field>
+                        <Form.Field style={{marginTop: 0, marginBottom: 30}}>
+                            <input ref={password}
+                                type="password"
+                                name="password"
+                                className="form-control"
+                                placeholder='Password'
+                                required />
+                        </Form.Field>
+                        {/* <Form.Input ref={password}
+                            fluid
+                            type="password"
+                            className="form-control"
+                            icon='lock'
+                            iconPosition='left'
+                            placeholder='Password'
+                            required autoFocus
+                        /> */}
+
+                    <Button type='submit' color='teal' fluid size='huge'>
+                        Login
+                    </Button>
+                    </Segment>
+                </Form>
+                <Message>
+                    New here? <a href='/register'>Sign Up</a>
+                </Message>
+                </Grid.Column>
+            </Grid>
         </main>
     )
 }
+
+
 export default Login
