@@ -1,0 +1,11 @@
+/* @import url("https://fonts.googleapis.com/css?family=Open+Sans"); */
+
+.timer-button {
+    border: '1px solid #ccc';
+    background-color: '#fff';
+    font-size: '2em';
+    padding: 15;
+    margin: 5;
+    width: 200;
+  }
+
