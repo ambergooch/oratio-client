@@ -1,33 +1,16 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import { Route, withRouter } from "react-router-dom"
 import Register from "./auth/Register"
 import Login from "./auth/Login"
 import Dictaphone from "./transcription/Dictaphone"
 import Output from "./transcription/Practice"
 import LandingPage from "./landing/LandingPage"
-import SpeechHistory from "./speech/SpeechHistory"
-import SpeechDetails from "./speech/SpeechDetails"
 
 const ApplicationViews = (props) => {
 
     const [interimSentence, setInterimSentence] = useState('')
     const [finalSentence, setFinalSentence] = useState('')
     const [finalOutput, setFinalOutput] = useState('')
-    const [currentSpeech, setCurrentSpeech] = useState([{}])
-
-    const getCurrentSpeech = () => {
-        fetch('http://localhost:8000/speeches?incomplete=true', {
-            "method": "GET",
-            "headers": {
-            "Accept": "application/json",
-            "Content-Type": "application/json",
-            }
-        })
-        .then(response => response.json())
-        .then((response) => {
-            setCurrentSpeech(response)
-        })
-    }
 
     window.newSentenceState = (data) => {
         // console.log(data.results[0].alternatives[0].transcript);
@@ -47,9 +30,7 @@ const ApplicationViews = (props) => {
         }
     };
 
-    useEffect(getCurrentSpeech, [])
 
-    console.log(currentSpeech[0])
     return (
         <React.Fragment>
 
@@ -75,25 +56,12 @@ const ApplicationViews = (props) => {
                         interimSentence={interimSentence}
                         finalSentence={finalSentence}
                         finalOutput={finalOutput}
-                        currentSpeech={currentSpeech}
                     />
                 }}
             />
             <Route
                 path="/practice" render={props => {
                     return <Dictaphone {...props} />
-                }}
-            />
-
-            <Route
-                path="/speeches/:speechId(\d+)" render={props => {
-                    return <SpeechDetails {...props} />
-                }}
-            />
-
-            <Route
-                path="/history" render={props => {
-                    return <SpeechHistory {...props} />
                 }}
             />
 

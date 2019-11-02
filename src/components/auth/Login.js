@@ -1,6 +1,6 @@
 import React, { useRef } from "react"
 import useSimpleAuth from "../../hooks/ui/useSimpleAuth";
-import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react'
+import { Button, Form, Grid, Header, Image, Message, Segment, Input } from 'semantic-ui-react'
 
 // import "./Login.css"
 

@@ -1,15 +1,14 @@
 const remoteURL = "http://localhost:8000"
-const token = localStorage.getItem("oratio_token")
 
 export default Object.create(null, {
-  getOne: {
+  get: {
     value: function (name, id) {
       return fetch(`${remoteURL}/${name}/${id}`, {
         "method": "GET",
         "headers": {
           "Accept": "application/json",
           "Content-Type": "application/json",
-          "Authorization": `Token ${token}`
+          "Authorization": `Token ${localStorage.getItem("token")}`
         },
       }).then(e => e.json())
     }
@@ -21,19 +20,19 @@ export default Object.create(null, {
         "headers": {
           "Accept": "application/json",
           "Content-Type": "application/json",
-          "Authorization": `Token ${token}`
+          "Authorization": `Token ${localStorage.getItem("token")}`
         },
       }).then(e => e.json())
     }
   },
-  get: {
+  getAll: {
     value: function (name) {
       return fetch(`${remoteURL}/${name}`, {
         "method": "GET",
         "headers": {
           "Accept": "application/json",
           "Content-Type": "application/json",
-          "Authorization": `Token ${token}`
+          "Authorization": `Token ${localStorage.getItem("token")}`
         },
       }).then(e => e.json())
     }
@@ -45,20 +44,20 @@ export default Object.create(null, {
         "headers": {
           "Accept": "application/json",
           "Content-Type": "application/json",
-          "Authorization": `Token ${token}`
+          "Authorization": `Token ${localStorage.getItem("token")}`
         },
         body: JSON.stringify(newObject)
       }).then(data => data.json())
     }
   },
   put: {
-    value: function(name, updatedObject, id) {
-      return fetch(`${remoteURL}/${name}/${id}`, {
+    value: function(name, updatedObject) {
+      return fetch(`${remoteURL}/${name}/${updatedObject.id}`, {
         "method": "PUT",
         "headers": {
           "Accept": "application/json",
           "Content-Type": "application/json",
-          "Authorization": `Token ${token}`
+          "Authorization": `Token ${localStorage.getItem("token")}`
         },
         body: JSON.stringify(updatedObject)
       })
@@ -71,7 +70,7 @@ export default Object.create(null, {
         "headers": {
           "Accept": "application/json",
           "Content-Type": "application/json",
-          "Authorization": `Token ${token}`
+          "Authorization": `Token ${localStorage.getItem("token")}`
         }
       })
     }
