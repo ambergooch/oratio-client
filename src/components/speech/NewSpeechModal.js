@@ -1,5 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
-import { Button, Header, Image, Modal, Divider, TransitionablePortal, Form } from 'semantic-ui-react'
+import { Button, Header, Image, Modal, Divider, Transition, Form } from 'semantic-ui-react'
+import TimePicker from 'rc-time-picker'
+import 'rc-time-picker/assets/index.css';
 import APIManager from '../modules/APIManager'
 
 const NewSpeechModal = props => {
@@ -8,17 +10,31 @@ const NewSpeechModal = props => {
     const events = useRef();
 
     const [fetchedEvents, setFetchedEvents] = useState([]);
-    const [open, setOpen] = useState(true)
+    const [open, setOpen] = useState()
     const [closeOnEscape, setCloseOnEscape] = useState()
     const [closeOnDimmerClick, setCloseOnDimmerClick] = useState()
+    const [setTime, setSetTime] = useState()
 
     const handleOpen = () => {
-      setOpen(true)
+        setOpen(true)
+        console.log('click')
     }
 
     const handleClose = () => {
       setOpen(false)
     }
+
+    const handleFieldChange = evt => {
+        console.log(evt)
+        const stateToChange = {};
+        stateToChange[evt.target.id] = evt.target.value;
+        setTime(stateToChange);
+      };
+
+    const handleInput = (input) => {
+        console.log(input)
+        setSetTime(input)
+      }
 
     // function that adds a new speech to the database
     // this function is being called when you click the add to product button
@@ -26,20 +42,19 @@ const NewSpeechModal = props => {
         e.preventDefault()
         // object that grabs all the values for the new speech
         const newSpeechObject = {
-            user_id: localStorage.getItem("user_id"),
             title: title.current.value,
             date: "",
             set_time: set_time.current.value,
-            actual_time: "",
+            actual_time: null,
             transcript: "",
             events: events.current.value,
-            um: "",
-            uh: "",
-            like: ""
+            um: null,
+            uh: null,
+            like: null
         }
         // post request from API manager that connects create method on server side to post on client side
         APIManager.post("speeches", newSpeechObject).then(() => {
-            props.history.push("/practice");
+            props.history.push("/");
           });
     }
   // function gets all events for dropdown
@@ -63,88 +78,67 @@ const NewSpeechModal = props => {
     setCloseOnEscape(false)
   }, []);
 
-
     return (
-    <div>
+        <>
         <style>{`
-        .ui.dimmer {
+          .ui.dimmer {
             transition: background-color 0.5s ease;
             background-color: transparent;
-        }
+          }
 
-        .modal-fade-in .ui.dimmer {
+           .ui.dimmer {
             background-color: orange;
-        }
+          }
         `}</style>
-
         <Button content='Open' onClick={handleOpen} />
 
-        <TransitionablePortal
-        open={open}
-        onOpen={() => setTimeout(() => document.body.classList.add('modal-fade-in'), 0)}
-        transition={{ animation: 'scale', duration: 500 }}
+        <Transition.Group
+            animation='scale'
+            duration={500}
         >
+        {open && (
         <Modal
             open={open}
             closeOnEscape={closeOnEscape}
             closeOnDimmerClick={closeOnDimmerClick}
             size='small'
+            onOpen={() => setTimeout(() => document.body.classList.add('modal-fade-in'), 0)}
+
             onClose={(event) => {
-            document.body.classList.remove('modal-fade-in')
-            handleClose()
-            }}
-        >
+                document.body.classList.remove('modal-fade-in')
+                handleClose()
+            }}>
             <Modal.Header>Create a New Speech</Modal.Header>
             <Modal.Content>
-            <Form size='large'>
-                <div>
-                    <label htmlFor="title">Title</label>
-                    <input type="text" title="title" ref={title} placeholder="Title" />
-                </div>
-                <div>
-                    <label htmlFor="set_time">Set a time limit</label>
-                    <input type="time" step='1' min="00:00:00" max="00:90:00" name="set_time" ref={set_time} placeholder="Enter time" />
-                </div>
-                <div>
-                    {/* <Form.Group widths='equal'>
-                        <Form.Field label='An HTML <input>' control='input' />
-                        <Form.Field size='large' label='Select an event' name='events' control='select'>
+                <form>
+                    <div>
+                        <label htmlFor="title">Title</label>
+                        <input type="text" name="title" ref={title} placeholder="Title" />
+                    </div>
+                    <div>
+                        <label htmlFor="set_time">Set a time limit</label>
+                        <input type="text" name="set_time" id="set_time" ref={set_time} placeholder="Enter time" required />
+                        {/* <input type="time" value="mm:ss" min="0:00" max="0:00:3600" name="set_time" id="set_time" ref={set_time} placeholder="Enter time" required /> */}
+                        {/* <TimePicker value={setTime} popupStyle={{ fontSize: '30px' }}
+                            showHour={false}
+                            secondStep={15}
+                            clearText='clear'
+                            onChange={(e) => handleInput(e)}/> */}
+                    </div>
+                    <div>
+                        <label htmlFor="events">Select an Event</label>
+                        <select type="text" name="events" ref={events}>
+                            <option>Select an Event</option>
                             {fetchedEvents.map(event => {
                                 return (
-                                    <option
-                                    key={event.id}
-                                    id={event.id}
-                                    value={event.id}
-                                    >
-                                    {event.name}
+                                    <option key={event.id} id={event.id} value={event.id}>
+                                        {event.name}
                                     </option>
-                                );
+                                )
                             })}
-                        </Form.Field>
-                    </Form.Group> */}
-                    <label htmlFor="events">Select an Event</label>
-                    <select type="text" name="events" ref={events}>
-                        <option>Select an Event</option>
-                        {fetchedEvents.map(event => {
-                            return (
-                                <option
-                                key={event.id}
-                                id={event.id}
-                                value={event.id}
-                                >
-                                {event.name}
-                                </option>
-                                );
-                        })}
-                    </select>
-                </div>
-            </Form>
-            {/* <Divider />
-            <Image src='https://semantic-ui.com/images/wireframe/paragraph.png' />
-            <Divider />
-            <Image src='https://semantic-ui.com/images/wireframe/paragraph.png' />
-            <Divider />
-            <Image src='https://semantic-ui.com/images/wireframe/paragraph.png' /> */}
+                        </select>
+                    </div>
+                </form>
             </Modal.Content>
             <Modal.Actions>
                 {/* <Button onClick={handleClose} negative>
@@ -153,14 +147,14 @@ const NewSpeechModal = props => {
                 <Button
                 onClick={e => addToSpeeches(e)}
                 positive
-                labelPosition='right'
-                icon='checkmark'
                 content='Start'
                 />
             </Modal.Actions>
         </Modal>
-        </TransitionablePortal>
-    </div>
+        )}
+        </Transition.Group>
+
+    </>
     )
 }
 
