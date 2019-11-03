@@ -48,7 +48,7 @@ export default Object.create(null, {
           "Authorization": `Token ${token}`
         },
         body: JSON.stringify(newObject)
-      }).then(data => data.json())
+      })
     }
   },
   put: {

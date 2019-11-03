@@ -41,48 +41,48 @@ const Register = props => {
                 <Form size='huge' onSubmit={handleRegister}>
                     <Segment stacked size='huge' style={{ height: 740, borderRadius: '10px' }}>
                         <Form.Field style={{margin: 40}}>
-                            <input fluid ref={userName}
+                            <input ref={userName}
                                 type="text"
                                 className="form-control"
                                 placeholder='Username'
                                 required autoFocus/>
                         </Form.Field>
                         <Form.Field style={{margin: 40}}>
-                            <input fluid ref={email}
+                            <input ref={email}
                                 type="email"
                                 className="form-control"
                                 placeholder='Email'
                                 required />
                         </Form.Field>
                         <Form.Field style={{margin: 40}}>
-                            <input fluid ref={password}
+                            <input ref={password}
                                 type="password"
                                 className="form-control"
                                 placeholder='Password'
                                 required />
                         </Form.Field>
                         <Form.Field style={{margin: 40}}>
-                            <input fluid ref={verifyPassword}
+                            <input ref={verifyPassword}
                                 type="password"
                                 className="form-control"
                                 placeholder='Verify Password'
                                 required />
                         </Form.Field>
                         <Form.Field style={{margin: 40}}>
-                            <input fluid ref={firstName}
+                            <input ref={firstName}
                                 type="text"
                                 className="form-control"
                                 placeholder='First Name'
                                 required />
                         </Form.Field>
                         <Form.Field style={{margin: 40}}>
-                            <input fluid ref={lastName}
+                            <input ref={lastName}
                                 type="text"
                                 className="form-control"
                                 placeholder='Last Name'
                                 required />
                         </Form.Field>
-                    <Button type='submit' color='teal' fluid size='huge'>
+                    <Button type='submit' color='teal'fluid size='huge'>
                         Register
                     </Button>
                     </Segment>

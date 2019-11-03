@@ -108,7 +108,7 @@ const Output = props => {
 
     const startButtonClick = () =>  {
         setIsListening(true)
-        // AudioStreamer.startRecording()
+        AudioStreamer.startRecording()
         handleRunClick()
     }
 
@@ -138,13 +138,13 @@ const Output = props => {
       .then(() => {
         props.history.push("/")
       })
-    };
-    console.log(props.currentSpeech)
+    }
+
     return (
         <>
           <NewSpeechModal {...props} />
             <article className="speechOutput">
-              {props.currentSpeech > 0 ?
+              {props.currentSpeech.length > 0 ?
               <div>
                 {!isListening ?
                   <img onClick={startButtonClick} alt="Start" id="start_img" src={mic}></img>

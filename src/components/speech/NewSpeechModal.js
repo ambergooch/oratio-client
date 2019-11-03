@@ -3,13 +3,13 @@ import { Button, Header, Image, Modal, Divider, Transition, Form } from 'semanti
 import TimePicker from 'rc-time-picker'
 import 'rc-time-picker/assets/index.css';
 import APIManager from '../modules/APIManager'
+import EventSelector from '../event/EventSelector'
 
 const NewSpeechModal = props => {
-    const title = useRef();
-    const set_time = useRef();
-    const events = useRef();
+    const title = useRef()
+    const set_time = useRef()
+    const childRef = useRef({})
 
-    const [fetchedEvents, setFetchedEvents] = useState([]);
     const [open, setOpen] = useState()
     const [closeOnEscape, setCloseOnEscape] = useState()
     const [closeOnDimmerClick, setCloseOnDimmerClick] = useState()
@@ -31,49 +31,44 @@ const NewSpeechModal = props => {
         setTime(stateToChange);
       };
 
-    const handleInput = (input) => {
-        console.log(input)
-        setSetTime(input)
+    const handleClick = (e) => {
+        e.preventDefault()
+        createNewSpeech()
+        addSpeechToEvent()
+        handleClose()
       }
 
     // function that adds a new speech to the database
-    // this function is being called when you click the add to product button
-    const addToSpeeches = e => {
-        e.preventDefault()
+    // this function is being called when you click the start button
+    const createNewSpeech = e => {
+
         // object that grabs all the values for the new speech
         const newSpeechObject = {
             title: title.current.value,
             date: "",
+            prompt: null,
             set_time: set_time.current.value,
-            actual_time: null,
-            transcript: "",
-            events: events.current.value,
-            um: null,
-            uh: null,
-            like: null
         }
         // post request from API manager that connects create method on server side to post on client side
         APIManager.post("speeches", newSpeechObject).then(() => {
-            props.history.push("/");
-          });
+          console.log("created speech")
+        })
     }
-  // function gets all events for dropdown
-  const getEvents = () => {
-    fetch(`http://localhost:8000/events`, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
+
+    const addSpeechToEvent = () => {
+
+      const eventObject = {
+          name: childRef.current.value,
+          speech_id: props.currentSpeech[0].id
       }
-    })
-      .then(response => response.json())
-      .then(response => {
-        setFetchedEvents(response);
-      });
-  };
+
+      APIManager.post("events", eventObject)
+      .then(() => {
+          console.log("speech added to event")
+      })
+  }
 
   useEffect(() => {
-    getEvents();
     setCloseOnDimmerClick(false)
     setCloseOnEscape(false)
   }, []);
@@ -125,7 +120,8 @@ const NewSpeechModal = props => {
                             clearText='clear'
                             onChange={(e) => handleInput(e)}/> */}
                     </div>
-                    <div>
+                    <EventSelector {...props} getRef={childRef}/>
+                    {/* <div>
                         <label htmlFor="events">Select an Event</label>
                         <select type="text" name="events" ref={events}>
                             <option>Select an Event</option>
@@ -137,7 +133,8 @@ const NewSpeechModal = props => {
                                 )
                             })}
                         </select>
-                    </div>
+                        <button onClick={createEvent}>Create new event</button>
+                    </div> */}
                 </form>
             </Modal.Content>
             <Modal.Actions>
@@ -145,7 +142,7 @@ const NewSpeechModal = props => {
                 Close
                 </Button> */}
                 <Button
-                onClick={e => addToSpeeches(e)}
+                onClick={handleClick}
                 positive
                 content='Start'
                 />
