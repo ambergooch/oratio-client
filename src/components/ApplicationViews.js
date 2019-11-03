@@ -29,6 +29,13 @@ const ApplicationViews = (props) => {
         })
     }
 
+    const convertToMinutesAndSeconds = (mil) => {
+        const minutes = Math.floor(mil / 60000);
+        const seconds = ((mil % 60000) / 1000).toFixed(0);
+        const time = minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+        return time
+    }
+
     window.newSentenceState = (data) => {
         // console.log(data.results[0].alternatives[0].transcript);
         var dataFinal = undefined || data.results[0].isFinal;
@@ -49,7 +56,6 @@ const ApplicationViews = (props) => {
 
     useEffect(getCurrentSpeech, [])
 
-    console.log(currentSpeech[0])
     return (
         <React.Fragment>
 
@@ -70,7 +76,7 @@ const ApplicationViews = (props) => {
                 }}
             />
             <Route
-                exact path="/" render={props => {
+                exact path="/practice" render={props => {
                     return <Output {...props}
                         interimSentence={interimSentence}
                         finalSentence={finalSentence}
@@ -87,7 +93,7 @@ const ApplicationViews = (props) => {
 
             <Route
                 path="/speeches/:speechId(\d+)" render={props => {
-                    return <SpeechDetails {...props} />
+                    return <SpeechDetails {...props} convert={convertToMinutesAndSeconds} />
                 }}
             />
 

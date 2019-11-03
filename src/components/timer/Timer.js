@@ -21,29 +21,6 @@ const Timer = props =>  {
     return time
   }
 
-  useEffect(() => {
-    // setTime(props.lapse)
-  }, [])
-
-//   const handleRunClick = () => {
-//     if (running) {
-//       clearInterval(intervalRef.current)
-//     } else {
-//       const startTime = Date.now() - lapse
-//       intervalRef.current = setInterval(() => {
-//         setState({lapse: Date.now() - startTime})
-//       }, 0)
-//     }
-//     setState({running: !running})
-//   }
-
-//   function handleClearClick() {
-//     clearInterval(intervalRef.current)
-//     setState({lapse: 0, running: false})
-//   }
-
-
-// console.log(convertToMinutesAndSeconds(props.lapse))
   return (
     <div style={{textAlign: 'center'}}>
       <label

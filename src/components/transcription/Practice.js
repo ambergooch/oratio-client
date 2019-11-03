@@ -1,4 +1,4 @@
-import React, { useState, useReducer, useRef } from 'react'
+import React, { useState, useReducer, useRef, useEffect } from 'react'
 import Highlighter from 'react-highlight-words'
 import { AudioStreamer } from '../modules/AudioStreamer'
 import NewSpeechModal from '../speech/NewSpeechModal'
@@ -15,7 +15,7 @@ function reducer(currentState, newState) {
 
 const Output = props => {
 
-    const [wordCount, setWordCount] = useState({})
+    const [wordCount, setWordCount] = useState([])
     const [isListening, setIsListening] = useState(false)
     const [{running, lapse}, setState] = useReducer(reducer, {
           running: false,
@@ -122,24 +122,29 @@ const Output = props => {
         like: count(props.finalOutput, 'like'),
         so: count(props.finalOutput, 'so ')
       })
-      updateSpeech(props.currentSpeech[0].id)
-    }
-
-    const updatedSpeechObject = {
-      actual_time: lapse,
-      transcript: props.finalOutput,
-      um: wordCount.um,
-      uh: wordCount.uh,
-      like: wordCount.like
     }
 
     const updateSpeech = (id) => {
+      const updatedSpeechObject = {
+        actual_time: lapse,
+        transcript: props.finalOutput,
+        um: wordCount.um,
+        uh: wordCount.uh,
+        like: wordCount.like
+      }
       APIManager.put("speeches", updatedSpeechObject, id)
       .then(() => {
-        props.history.push("/")
+        props.history.push(`/speeches/${id}`)
       })
     }
 
+    useEffect(() => {
+      if (wordCount > 0) {
+        updateSpeech(props.currentSpeech[0].id)
+      }
+    }, [wordCount])
+
+console.log(wordCount)
     return (
         <>
           <NewSpeechModal {...props} />

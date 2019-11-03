@@ -1,13 +1,13 @@
 import React, { useRef, useEffect, useState } from "react";
 import { Button, Header, Image, Modal, Divider, Transition, Form } from 'semantic-ui-react'
-import TimePicker from 'rc-time-picker'
+import TimePicker from 'react-time-picker'
 import 'rc-time-picker/assets/index.css';
 import APIManager from '../modules/APIManager'
 import EventSelector from '../event/EventSelector'
 
 const NewSpeechModal = props => {
     const title = useRef()
-    const set_time = useRef()
+    // const set_time = useRef()
     const childRef = useRef({})
 
     const [open, setOpen] = useState()
@@ -47,7 +47,7 @@ const NewSpeechModal = props => {
             title: title.current.value,
             date: "",
             prompt: null,
-            set_time: set_time.current.value,
+            // set_time: set_time.current.value,
         }
         // post request from API manager that connects create method on server side to post on client side
         APIManager.post("speeches", newSpeechObject).then(() => {
@@ -112,13 +112,13 @@ const NewSpeechModal = props => {
                     </div>
                     <div>
                         <label htmlFor="set_time">Set a time limit</label>
-                        <input type="text" name="set_time" id="set_time" ref={set_time} placeholder="Enter time" required />
+                        {/* <input type="text" name="set_time" id="set_time" ref={set_time} placeholder="Enter time" required /> */}
                         {/* <input type="time" value="mm:ss" min="0:00" max="0:00:3600" name="set_time" id="set_time" ref={set_time} placeholder="Enter time" required /> */}
-                        {/* <TimePicker value={setTime} popupStyle={{ fontSize: '30px' }}
+                        <TimePicker  popupStyle={{ fontSize: '30px' }}
                             showHour={false}
                             secondStep={15}
                             clearText='clear'
-                            onChange={(e) => handleInput(e)}/> */}
+                            onChange={(e) => handleFieldChange(e)}/>
                     </div>
                     <EventSelector {...props} getRef={childRef}/>
                     {/* <div>
