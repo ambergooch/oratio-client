@@ -1,7 +1,9 @@
 import React from 'react';
 import { Link } from "react-router-dom"
 import useSimpleAuth from "../../hooks/ui/useSimpleAuth"
-import { Button, Grid, Container } from 'semantic-ui-react';
+import { Button, Grid, Container } from 'semantic-ui-react'
+import webbackground from '../../images/webbackground.gif'
+import "./LandingPage.css"
 
 const Landing = props => {
     console.log(localStorage.getItem("oratio_token"))

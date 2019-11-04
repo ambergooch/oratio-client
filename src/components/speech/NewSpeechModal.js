@@ -7,7 +7,7 @@ import EventSelector from '../event/EventSelector'
 
 const NewSpeechModal = props => {
     const title = useRef()
-    // const set_time = useRef()
+    const set_time = useRef()
     const childRef = useRef({})
 
     const [open, setOpen] = useState()
@@ -24,12 +24,12 @@ const NewSpeechModal = props => {
       setOpen(false)
     }
 
-    const handleFieldChange = evt => {
-        console.log(evt)
-        const stateToChange = {};
-        stateToChange[evt.target.id] = evt.target.value;
-        setTime(stateToChange);
-      };
+    // const handleFieldChange = evt => {
+    //     console.log(evt)
+    //     const stateToChange = {};
+    //     stateToChange[evt.target.id] = evt.target.value;
+    //     setTime(stateToChange);
+    //   };
 
     const handleClick = (e) => {
         e.preventDefault()
@@ -113,12 +113,12 @@ const NewSpeechModal = props => {
                     <div>
                         <label htmlFor="set_time">Set a time limit</label>
                         {/* <input type="text" name="set_time" id="set_time" ref={set_time} placeholder="Enter time" required /> */}
-                        {/* <input type="time" value="mm:ss" min="0:00" max="0:00:3600" name="set_time" id="set_time" ref={set_time} placeholder="Enter time" required /> */}
-                        <TimePicker  popupStyle={{ fontSize: '30px' }}
+                        <input type="time" value="mm:ss" min="0:00" max="0:00:3600" name="set_time" id="set_time" ref={set_time} placeholder="Enter time" required />
+                        {/* <TimePicker  popupStyle={{ fontSize: '30px' }}
                             showHour={false}
                             secondStep={15}
                             clearText='clear'
-                            onChange={(e) => handleFieldChange(e)}/>
+                            onChange={(e) => handleFieldChange(e)}/> */}
                     </div>
                     <EventSelector {...props} getRef={childRef}/>
                     {/* <div>
