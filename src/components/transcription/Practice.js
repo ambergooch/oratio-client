@@ -8,6 +8,7 @@ import Timer from '../timer/Timer'
 import moment from 'moment'
 import 'rc-time-picker/assets/index.css'
 import APIManager from '../modules/APIManager'
+import './Practice.css'
 
 function reducer(currentState, newState) {
   return {...currentState, ...newState}
@@ -148,7 +149,7 @@ console.log(wordCount)
     return (
         <>
           <NewSpeechModal {...props} />
-            <article className="speechOutput">
+            <article className="speech-output">
               {props.currentSpeech.length > 0 ?
               <div>
                 {!isListening ?
@@ -159,6 +160,7 @@ console.log(wordCount)
               </div>
               : ""}
               <Timer {...props} lapse={lapse} running={running}/>
+              <div className='letter'>
                 <p>interim {props.interimSentence}</p>
                 <p>final {props.finalSentence}</p>
                 <p>final output {props.finalOutput}</p>
@@ -168,8 +170,8 @@ console.log(wordCount)
                     autoEscape={true}
                     textToHighlight={props.finalOutput}
                     highlightStyle={{backgroundColor: '#f8d129', color: 'white'}}
-                    findChunks={findAtFirstChar}
-                />
+                    findChunks={findAtFirstChar} />
+                </div>
                 <p>um count: {wordCount.um}</p>
                 <p>uh count: {wordCount.uh}</p>
                 <p>like count: {wordCount.like}</p>

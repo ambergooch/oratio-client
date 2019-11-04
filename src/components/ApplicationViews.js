@@ -50,7 +50,7 @@ const ApplicationViews = (props) => {
             console.log("Google Speech sent 'final' Sentence and it is:");
             console.log(finalString);
             setFinalSentence(finalString)
-            setFinalOutput(finalOutput.concat(finalString))
+            setFinalOutput(finalOutput.concat(' ', finalString))
         }
     };
 

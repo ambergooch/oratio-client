@@ -1,7 +1,7 @@
 import React, { useRef } from "react"
 import { withRouter } from "react-router-dom"
 import useSimpleAuth from "../../hooks/ui/useSimpleAuth"
-import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react'
+import { Button, Form, Grid, Header, Icon, Message, Segment } from 'semantic-ui-react'
 
 // import "./Login.css"
 
@@ -35,8 +35,9 @@ const Register = props => {
         <main style={{textAlign:"center"}}>
             <Grid textAlign='center' style={{ height: '160vh' }} verticalAlign='middle'>
                 <Grid.Column style={{ maxWidth: 600 }}>
-                <Header as='h2' color='teal' textAlign='center'>
-                    <Image src='/logo.png' /> Register for Oratio
+                <Header as='h2' color='purple' textAlign='center'>
+                    <Icon size='small' color='purple' name='comment' />
+                     Register for Oratio
                 </Header>
                 <Form size='huge' onSubmit={handleRegister}>
                     <Segment stacked size='huge' style={{ height: 740, borderRadius: '10px' }}>
@@ -82,7 +83,7 @@ const Register = props => {
                                 placeholder='Last Name'
                                 required />
                         </Form.Field>
-                    <Button type='submit' color='teal'fluid size='huge'>
+                    <Button type='submit' color='purple'fluid size='huge'>
                         Register
                     </Button>
                     </Segment>

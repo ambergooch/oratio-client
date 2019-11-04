@@ -20,16 +20,14 @@ const SpeechDetails = props => {
     }, [])
 
     // Only need to send the speech id to Django app. The rest of the process will be handled on the server side
-    const addToEvent = () => {
-        const speechIdObject = {speech_id: singleSpeech.id}
-        APIManager.post("events", speechIdObject)
-    }
+
 console.log(props)
     return (
         <>
             {
               <section className="speech-details">
                   <h3>{singleSpeech.title}</h3>
+                  <p>date: {singleSpeech.date}</p>
                   <p>set time{props.convert(singleSpeech.set_time)}</p>
                   <p>actual time:{props.convert(singleSpeech.actual_time)}</p>
                   <p>transcript:{singleSpeech.transcript}</p>
@@ -38,7 +36,7 @@ console.log(props)
                   <p>Uh: {singleSpeech.uh}</p>
                   <p>Like: {singleSpeech.like}</p>
                   <br/>
-                  <button onClick = {addToEvent}>Add Order</button>
+                  <button onClick={props.history.push('/speeches')}>Edit</button>
               </section>
             }
         </>

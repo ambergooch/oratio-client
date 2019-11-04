@@ -1,6 +1,6 @@
 import React, { useRef } from "react"
 import useSimpleAuth from "../../hooks/ui/useSimpleAuth";
-import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react'
+import { Button, Form, Grid, Header, Message, Segment, Icon } from 'semantic-ui-react'
 
 // import "./Login.css"
 
@@ -34,11 +34,12 @@ const Login = props => {
         <main style={{textAlign:"center"}}>
             <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
                 <Grid.Column style={{ maxWidth: 450 }}>
-                <Header as='h2' color='teal' textAlign='center'>
-                    <Image src='/logo.png' /> Please Sign In
+                <Header as='h2' color='purple' textAlign='center'>
+                    <Icon size='small' color='purple' name='comment' />
+                     Please Sign In
                 </Header>
                 <Form size='huge' onSubmit={handleLogin}>
-                    <Segment stacked size='huge' style={{ height: 350, borderRadius: '10px' }}>
+                    <Segment stacked size='huge' style={{ height: 350 }}>
                         <Form.Field style={{marginTop: 40, marginBottom: 30}}>
                             <input ref={username}
                                 type="text"
@@ -64,7 +65,7 @@ const Login = props => {
                             required autoFocus
                         /> */}
 
-                    <Button type='submit' color='teal' fluid size='huge'>
+                    <Button type='submit' color='purple' fluid size='huge'>
                         Login
                     </Button>
                     </Segment>

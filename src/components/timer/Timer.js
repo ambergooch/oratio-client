@@ -22,7 +22,7 @@ const Timer = props =>  {
   }
 
   return (
-    <div style={{textAlign: 'center'}}>
+    <div className='timer-output' style={{textAlign: 'right'}}>
       <label
         style={{
           fontSize: '5em',
@@ -32,9 +32,9 @@ const Timer = props =>  {
         {convertToMinutesAndSeconds(props.lapse)}
 
       </label>
-      <button className='timer-button' onClick={props.handleRunClick}>
+      {/* <button className='timer-button' onClick={props.handleRunClick}>
         {props.running ? 'Stop' : 'Start'}
-      </button>
+      </button> */}
       {/* <button className='timer-button' onClick={props.handleClearClick}>
         Clear
       </button> */}

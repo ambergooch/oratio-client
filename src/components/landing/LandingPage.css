@@ -19,4 +19,9 @@
     letter-spacing: 20px;
     color: white;
     margin-left: 60px;
+    margin-bottom: 100px;
+}
+
+.auth-button {
+    margin-right: 20px;
 }

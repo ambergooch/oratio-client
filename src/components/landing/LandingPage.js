@@ -30,8 +30,8 @@ const Landing = props => {
                     <Button className="auth-button"
                         content='Login'
                         size='big'
-                        color='purple'
-                        style={{borderRadius: 0}}
+                        color='blue'
+                        style={{borderRadius: 0, marginRight: 20, marginTop: 40}}
                         onClick={() => {
                             props.history.push({
                                 pathname: "/login"
@@ -41,7 +41,7 @@ const Landing = props => {
                     <Button inverted className="auth-button"
                         content='Register'
                         size='big'
-                        color='purple'
+                        color='blue'
                         style={{borderRadius: 0}}
                         onClick={() => {
                             props.history.push({
