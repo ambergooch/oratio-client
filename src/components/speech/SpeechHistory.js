@@ -28,7 +28,7 @@ const SpeechHistory = props => {
             <h2>Speech History</h2>
                 {
                     allSpeeches.filter((speech) => {
-                        return speech.actual_time === null})
+                        return speech.actual_time})
                     .map(speech => {
                         console.log(speech)
                         return (

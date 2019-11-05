@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import { Button, Header, Image, Modal, Divider, Transition, Form } from 'semantic-ui-react'
-import TimePicker from 'react-time-picker'
-import 'rc-time-picker/assets/index.css';
+import TimeField from 'react-simple-timefield'
+// import 'rc-time-picker/assets/index.css';
 import APIManager from '../modules/APIManager'
 import EventSelector from '../event/EventSelector'
 
@@ -13,7 +13,7 @@ const NewSpeechModal = props => {
     const [open, setOpen] = useState()
     const [closeOnEscape, setCloseOnEscape] = useState()
     const [closeOnDimmerClick, setCloseOnDimmerClick] = useState()
-    const [setTime, setSetTime] = useState()
+    const [time, setTime] = useState('')
 
     const handleOpen = () => {
         setOpen(true)
@@ -24,19 +24,23 @@ const NewSpeechModal = props => {
       setOpen(false)
     }
 
-    // const handleFieldChange = evt => {
-    //     console.log(evt)
-    //     const stateToChange = {};
-    //     stateToChange[evt.target.id] = evt.target.value;
-    //     setTime(stateToChange);
-    //   };
+    const handleFieldChange = evt => {
+        console.log(evt)
+        // const stateToChange = '';
+        // stateToChange[evt.target.id] = evt.target.value;
+        setTime(evt.target.value);
+      };
 
     const handleClick = (e) => {
         e.preventDefault()
         createNewSpeech()
-        addSpeechToEvent()
+        // addSpeechToEvent()
         handleClose()
-      }
+    }
+
+    const convertToMilliseconds = (time) => {
+       return Number(time.split(':')[0]) * 60 * 1000 + Number(time.split(':')[1]) * 1000
+    }
 
     // function that adds a new speech to the database
     // this function is being called when you click the start button
@@ -47,44 +51,50 @@ const NewSpeechModal = props => {
             title: title.current.value,
             date: "",
             prompt: null,
-            // set_time: set_time.current.value,
+            set_time: convertToMilliseconds(set_time.current.state.value)
         }
         // post request from API manager that connects create method on server side to post on client side
-        APIManager.post("speeches", newSpeechObject).then(() => {
-          console.log("created speech")
+        APIManager.post("speeches", newSpeechObject)
+        .then((newSpeech) => newSpeech.json())
+        .then(newSpeech => {
+          console.log("created speech", newSpeech)
+          addSpeechToEvent(newSpeech)
         })
     }
 
-    const addSpeechToEvent = () => {
+    const addSpeechToEvent = (speech) => {
 
       const eventObject = {
           name: childRef.current.value,
-          speech_id: props.currentSpeech[0].id
+          speech_id: speech.id
       }
 
       APIManager.post("events", eventObject)
       .then(() => {
           console.log("speech added to event")
+          props.setReady(true)
       })
-  }
+    }
 
-  useEffect(() => {
-    setCloseOnDimmerClick(false)
-    setCloseOnEscape(false)
-  }, []);
+    useEffect(() => {
+        setCloseOnDimmerClick(false)
+        setCloseOnEscape(false)
+    }, []);
 
     return (
         <>
-        <style>{`
-          .ui.dimmer {
-            transition: background-color 0.5s ease;
-            background-color: transparent;
-          }
+        <style>
+        {`
+            .ui.dimmer {
+                transition: background-color 0.5s ease;
+                background-color: transparent;
+            }
 
-           .ui.dimmer {
-            background-color: orange;
-          }
-        `}</style>
+            .ui.dimmer {
+                background-color: orange;
+            }
+        `}
+        </style>
         <Button content='Open' onClick={handleOpen} />
 
         <Transition.Group
@@ -113,12 +123,13 @@ const NewSpeechModal = props => {
                     <div>
                         <label htmlFor="set_time">Set a time limit</label>
                         {/* <input type="text" name="set_time" id="set_time" ref={set_time} placeholder="Enter time" required /> */}
-                        <input type="time" value="mm:ss" min="0:00" max="0:00:3600" name="set_time" id="set_time" ref={set_time} placeholder="Enter time" required />
-                        {/* <TimePicker  popupStyle={{ fontSize: '30px' }}
-                            showHour={false}
-                            secondStep={15}
-                            clearText='clear'
-                            onChange={(e) => handleFieldChange(e)}/> */}
+                        {/* <input type="time" value="mm:ss" min="0:00" max="0:00:3600" name="set_time" id="set_time" ref={set_time} placeholder="Enter time" required /> */}
+                        <TimeField  style={{ width: '150px', fontSize: '20px' }}
+                            ref={set_time}
+                            name='set_time'
+                            value={time}
+                            onChange={(e, value) => handleFieldChange(e, value)}
+                            showSeconds />
                     </div>
                     <EventSelector {...props} getRef={childRef}/>
                     {/* <div>

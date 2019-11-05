@@ -19,7 +19,7 @@ const NavBar = props => {
       return (
         <>
         {/* {isAuthenticated === true ? */}
-        <Menu stackable style={{position: 'sticky', top: 0, zIndex: 5, marginBottom: 5, boxShadow: "3px 3px 10px #d4d4d4" }}>
+        <Menu stackable style={{position: 'sticky', top: 0, zIndex: 5, marginBottom: 2, boxShadow: "3px 3px 10px black" }}>
           <Menu.Item>
             <Icon circular inverted size='large' color='purple' name='comment' />
           </Menu.Item>
@@ -52,7 +52,7 @@ const NavBar = props => {
                 </Menu.Item> */}
                 <Dropdown item simple direction='left' style={{border: 'none'}}>
                 <Dropdown.Menu>
-                    <Dropdown.Item as={Link} to="/history">History</Dropdown.Item>
+                    <Dropdown.Item as={Link} to="/speeches">History</Dropdown.Item>
                     <Dropdown.Item onClick={(e) => {handleLogout(e)}}>Logout</Dropdown.Item>
                 </Dropdown.Menu>
                 </Dropdown>

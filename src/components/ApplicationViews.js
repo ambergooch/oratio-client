@@ -21,6 +21,7 @@ const ApplicationViews = (props) => {
             "headers": {
             "Accept": "application/json",
             "Content-Type": "application/json",
+            "Authorization": `Token ${localStorage.getItem("oratio_token")}`
             }
         })
         .then(response => response.json())
@@ -56,6 +57,8 @@ const ApplicationViews = (props) => {
 
     useEffect(getCurrentSpeech, [])
 
+    console.log(currentSpeech)
+
     return (
         <React.Fragment>
 
@@ -81,13 +84,9 @@ const ApplicationViews = (props) => {
                         interimSentence={interimSentence}
                         finalSentence={finalSentence}
                         finalOutput={finalOutput}
+                        getCurrentSpeech={getCurrentSpeech}
                         currentSpeech={currentSpeech}
                     />
-                }}
-            />
-            <Route
-                path="/practice" render={props => {
-                    return <Dictaphone {...props} />
                 }}
             />
 
@@ -98,7 +97,7 @@ const ApplicationViews = (props) => {
             />
 
             <Route
-                path="/history" render={props => {
+                exact path="/speeches" render={props => {
                     return <SpeechHistory {...props} />
                 }}
             />

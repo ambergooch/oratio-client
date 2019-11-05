@@ -1,9 +1,16 @@
 import React, {useState, useEffect } from "react"
 import APIManager from '../modules/APIManager'
+import EditSpeechModal from "./EditSpeechModal";
 
 const SpeechDetails = props => {
 
     const [singleSpeech, setSpeech] = useState([]);
+    const [open, setOpen] = useState()
+
+    const handleOpen = () => {
+        setOpen(true)
+        console.log('click')
+    }
 
     const getSingleSpeech = () => {
         const id = props.match.params.speechId
@@ -36,7 +43,8 @@ console.log(props)
                   <p>Uh: {singleSpeech.uh}</p>
                   <p>Like: {singleSpeech.like}</p>
                   <br/>
-                  <button onClick={props.history.push('/speeches')}>Edit</button>
+                  <button onClick={handleOpen}>Edit</button>
+                  <EditSpeechModal {...props} open={open} />
               </section>
             }
         </>

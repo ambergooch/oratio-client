@@ -18,6 +18,7 @@ const Output = props => {
 
     const [wordCount, setWordCount] = useState([])
     const [isListening, setIsListening] = useState(false)
+    const [ready, setReady] = useState(false)
     const [{running, lapse}, setState] = useReducer(reducer, {
           running: false,
           lapse: 0,
@@ -145,21 +146,26 @@ const Output = props => {
       }
     }, [wordCount])
 
-console.log(wordCount)
+console.log(props)
     return (
         <>
-          <NewSpeechModal {...props} />
-            <article className="speech-output">
-              {props.currentSpeech.length > 0 ?
+          <article className="speech-output">
+            <NewSpeechModal {...props} setReady={setReady} />
+              {!ready ?
               <div>
                 {!isListening ?
-                  <img onClick={startButtonClick} alt="Start" id="start_img" src={mic}></img>
+                  <img className="record-button" onClick={startButtonClick} alt="Start" id="start_img" src={mic}></img>
                   :
-                  <img onClick={stopButtonClick} alt="Stop" id="stop_img" src={micAnimate}></img>
+                  <img className="record-button" onClick={stopButtonClick} alt="Stop" id="stop_img" src={micAnimate}></img>
                 }
               </div>
               : ""}
               <Timer {...props} lapse={lapse} running={running}/>
+              <div className="word-count">
+                <p>um count: {wordCount.um}</p>
+                <p>uh count: {wordCount.uh}</p>
+                <p>like count: {wordCount.like}</p>
+              </div>
               <div className='letter'>
                 <p>interim {props.interimSentence}</p>
                 <p>final {props.finalSentence}</p>
@@ -171,11 +177,8 @@ console.log(wordCount)
                     textToHighlight={props.finalOutput}
                     highlightStyle={{backgroundColor: '#f8d129', color: 'white'}}
                     findChunks={findAtFirstChar} />
-                </div>
-                <p>um count: {wordCount.um}</p>
-                <p>uh count: {wordCount.uh}</p>
-                <p>like count: {wordCount.like}</p>
-            </article>
+              </div>
+          </article>
 
         </>
     )

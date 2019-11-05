@@ -10,6 +10,9 @@
 }
 
 .timer-output {
+  position: relative;
+  float: right;
   margin-right: 200px;
+  padding-top: 150px;
 }
 
