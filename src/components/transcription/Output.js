@@ -9,7 +9,6 @@ import Slider from 'react-animated-slider';
 import 'react-animated-slider/build/horizontal.css'
 import APIManager from '../modules/APIManager'
 import { Button, Icon } from 'semantic-ui-react'
-
 import './Output.css'
 
 function reducer(currentState, newState) {
@@ -25,6 +24,7 @@ const Output = props => {
     const [isListening, setIsListening] = useState(false)
     const [ready, setReady] = useState(false)
     const [open, setOpen] = useState()
+    const [speech, setSpeech] = useState()
 
     const [{running, lapse}, setState] = useReducer(reducer, {
           running: false,
@@ -131,12 +131,14 @@ const Output = props => {
       setIsListening(false)
       AudioStreamer.stopRecording0()
       handleRunClick()
-      setWordCount({
-        um: count(props.finalOutput, 'um '),
-        uh: count(props.finalOutput, 'uh '),
-        like: count(props.finalOutput, 'like'),
-        so: count(props.finalOutput, 'so ')
-      })
+      // setWordCount({
+      //   um: count(props.finalOutput, 'um '),
+      //   uh: count(props.finalOutput, 'uh '),
+      //   like: count(props.finalOutput, 'like'),
+      //   so: count(props.finalOutput, 'so ')
+      // })
+      getCurrentSpeech()
+      console.log(wordCount)
     }
 
     const getPrompts = () => {
@@ -144,13 +146,29 @@ const Output = props => {
       .then(setPrompts)
     }
 
+    const getCurrentSpeech = () => {
+      fetch('http://localhost:8000/speeches?incomplete=true', {
+          "method": "GET",
+          "headers": {
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+          "Authorization": `Token ${localStorage.getItem("oratio_token")}`
+          }
+      })
+      .then(response => response.json())
+      .then((response) => {
+        console.log(response)
+          updateSpeech(response[0].id)
+      })
+    }
+
     const updateSpeech = (id) => {
       const updatedSpeechObject = {
         actual_time: lapse,
         transcript: props.finalOutput,
-        um: wordCount.um,
-        uh: wordCount.uh,
-        like: wordCount.like
+        um: count(props.finalOutput, 'um '),
+        uh: count(props.finalOutput, 'uh '),
+        like: count(props.finalOutput, 'like'),
       }
       APIManager.put("speeches", updatedSpeechObject, id)
       .then(() => {
@@ -162,17 +180,19 @@ const Output = props => {
       if (window.location.pathname === "/interview") {
         getPrompts()
       }
-      if (wordCount > 0) {
-        updateSpeech(props.currentSpeech[0].id)
-      }
+
     }, [wordCount])
 
-console.log(prompt)
-console.log(selectedPrompt)
+console.log(wordCount)
+console.log(props.currentSpeech[0])
     return (
         <>
           <article className="speech-output">
-            <NewSpeechModal {...props} setReady={setReady} setOpen={setOpen} open={open} selectedPrompt={selectedPrompt} />
+            <NewSpeechModal {...props} setReady={setReady}
+              setOpen={setOpen}
+              open={open}
+              selectedPrompt={selectedPrompt}
+          />
             {window.location.pathname === "/interview" ?
               <Slider>
                 {prompts.map((prompt) => {
@@ -187,7 +207,7 @@ console.log(selectedPrompt)
             : ""}
               <div className="panel">
                 <Timer {...props} lapse={lapse} running={running}/>
-                {!ready ?
+                {ready ?
                 <div>
                   {!isListening ?
                    <img className="record-button" onClick={startButtonClick} alt="Start" id="start_img" src={microphone}></img>

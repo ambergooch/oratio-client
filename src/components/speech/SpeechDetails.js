@@ -1,7 +1,8 @@
-import React, {useState, useEffect } from "react"
+import React, {useState, useEffect } from 'react'
 import APIManager from '../modules/APIManager'
 import EditSpeechModal from "./EditSpeechModal"
 import { Modal, Button, Header, Icon } from 'semantic-ui-react'
+import './SpeechDetails.css'
 
 
 const SpeechDetails = props => {
@@ -51,7 +52,9 @@ console.log(deleteOpen)
         <>
             {
               <section className="speech-details">
-                  <h3>{singleSpeech.title}</h3>
+                <div className="speech-header">
+                  <h3 className="speech-title">{singleSpeech.title}</h3>
+                </div>
                   <p>date: {singleSpeech.date}</p>
                   <p>set time{props.convert(singleSpeech.set_time)}</p>
                   <p>actual time:{props.convert(singleSpeech.actual_time)}</p>
@@ -61,7 +64,7 @@ console.log(deleteOpen)
                   <p>Uh: {singleSpeech.uh}</p>
                   <p>Like: {singleSpeech.like}</p>
                   <br/>
-                  <button onClick={handleOpen}>Edit</button>
+
                   <EditSpeechModal {...props} open={open} />
                   <Modal
                     trigger={<Button onClick={handleDeleteOpen}
@@ -87,6 +90,14 @@ console.log(deleteOpen)
                             </Button>
                         </Modal.Actions>
                     </Modal>
+                    <Button
+                    onClick={handleOpen}
+                    size="tiny"
+                    color="purple"
+                    style={{float: 'left', marginRight: '30px', marginBottom: '30px', borderRadius: 0}}
+                >
+                    Edit
+                  </Button>
 
 
               </section>

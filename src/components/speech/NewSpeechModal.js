@@ -132,6 +132,7 @@ const NewSpeechModal = props => {
                             onChange={(e, value) => handleFieldChange(e, value)}
                             showSeconds />
                     </div>
+                    <br />
                     <EventSelector {...props} getRef={childRef}/>
                 </Form>
             </Modal.Content>

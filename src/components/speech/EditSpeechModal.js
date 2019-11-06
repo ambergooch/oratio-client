@@ -11,6 +11,7 @@ const EditSpeechForm = props => {
   const um = useRef();
   const uh = useRef();
   const like = useRef();
+  const childRef = useRef({})
 
   const [speech, setSpeech] = useState([]);
   const { isAuthenticated } = useSimpleAuth();
@@ -37,19 +38,24 @@ const EditSpeechForm = props => {
   const updateSpeech = () => {
     const updatedSpeechObject = {
       transcript: transcript.current.ref.current.value,
-      actual_time: actual_time.current.defaultValue,
-      um: um.current.defaultValue,
-      uh: uh.current.defaultValue,
-      like: like.current.defaultValue
+      actual_time: actual_time.current.value,
+      um: um.current.value,
+      uh: uh.current.value,
+      like: like.current.value
     }
     APIManager.put("speeches", updatedSpeechObject, speechId)
       .then(() => {
-        props.history.push('/speeches')
+        console.log(speech)
+        addToEvent(speech)
+        window.location = `/speeches/${speechId}`
       })
   };
 
-  const addToEvent = () => {
-    const speechIdObject = {speech_id: speech.id}
+  const addToEvent = (speech) => {
+    const speechIdObject = {
+      name: childRef.current.state.value,
+      speech_id: speech.id
+    }
     APIManager.post("events", speechIdObject)
 }
 
@@ -57,7 +63,8 @@ const EditSpeechForm = props => {
     getSpeech();
   }, []);
 
-  console.log(transcript)
+  console.log(um)
+  console.log(speech)
   return (
     <>
       {/* {open && ( */}
@@ -79,12 +86,12 @@ const EditSpeechForm = props => {
                   name="transcript"
                   defaultValue={speech.transcript} />
               </Form>
-              <EventSelector {...props} />
+              <EventSelector {...props} getRef={childRef} />
               <div >
-                <input type="hidden" ref={actual_time} defaultValue={speech.actual_time}></input>
-                <input type="hidden" ref={um} defaultValue={speech.um}></input>
-                <input type="hidden" ref={uh} defaultValue={speech.uh}></input>
-                <input type="hidden" ref={like} defaultValue={speech.like}></input>
+                <input type="hidden" ref={actual_time} value={speech.actual_time}></input>
+                <input type="hidden" ref={um} value={speech.um}></input>
+                <input type="hidden" ref={uh} value={speech.uh}></input>
+                <input type="hidden" ref={like} value={speech.like}></input>
               </div>
             </Modal.Content>
             <Modal.Actions>

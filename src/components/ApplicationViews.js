@@ -63,10 +63,17 @@ const ApplicationViews = (props) => {
         <React.Fragment>
 
             <Route
+                exact path="/" render={props => {
+                    return <LandingPage {...props} />
+                }}
+            />
+
+            <Route
                 path="/landing" render={props => {
                     return <LandingPage {...props} />
                 }}
             />
+
             <Route
                 path="/register" render={props => {
                     return <Register {...props} />
@@ -78,6 +85,7 @@ const ApplicationViews = (props) => {
                     return <Login {...props} />
                 }}
             />
+
             <Route
                 exact path="/practice" render={props => {
                     return <Output {...props}
@@ -89,6 +97,7 @@ const ApplicationViews = (props) => {
                     />
                 }}
             />
+
             <Route
                 exact path="/interview" render={props => {
                     return <Output {...props}
