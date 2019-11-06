@@ -10,13 +10,7 @@
   margin-right: 100px;
 }
 
-.record-button {
-  display: block;
-  position: relative;
-  float: right;
-  margin-right: 250px;
-  padding-top: 100px;
-}
+
 
 .interim-string {
   /* display: block; */
@@ -26,8 +20,8 @@
   max-width: 550px;
   /* min-height: 500px; */
   margin-left: 20px;
-  margin-right: 250px;
-  padding-top: 50px;
+  margin-right: 20px;
+  padding-top: 80px;
 }
 
 .word-count {
@@ -70,10 +64,12 @@
     margin: 26px 150px 0;
     max-width: 550px;
     min-height: 500px;
-    padding: 24px;
+    padding: 32px;
     position: relative;
     width: 80%;
     /* height: 100%; */
+
+
 }
 
 .letter:before, .letter:after {
@@ -130,13 +126,57 @@
 
 /* styling text content */
 #content {
-  padding-top: 6px;
-  padding-left: 56px;
+  padding-top: 8px;
+  padding-left: 16px;
   padding-right: 16px;
   line-height: 25px;
-  font-family: 'Dancing Script', cursive;
-  font-size: 19px;
+  /* font-family: 'Dancing Script', cursive; */
+  font-size: 14px;
   letter-spacing: 1px;
   word-spacing: 5px;
 }
+
+.record-button {
+  display: block;
+  position: relative;
+  float: right;
+  margin-right: 230px;
+  margin-top: 80px;
+
+  position: relative;
+  width: 100px;
+  height: 100px;
+  border: none;
+  box-shadow: 0 0 0 0 rgba(232, 76, 61, 0.7);
+  border-radius: 50%;
+  background-color: #e84c3d;
+  cursor: pointer;
+}
+
+.pulse-button {
+  display: block;
+  position: relative;
+  float: right;
+  margin-right: 230px;
+  margin-top: 80px;
+
+  position: relative;
+  width: 100px;
+  height: 100px;
+  border: none;
+  box-shadow: 0 0 0 0 rgba(232, 76, 61, 0.7);
+  border-radius: 50%;
+  background-color: #e84c3d;
+  cursor: pointer;
+  -webkit-animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
+  -moz-animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
+  -ms-animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
+  animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
+}
+
+
+@-webkit-keyframes pulse {to {box-shadow: 0 0 0 45px rgba(232, 76, 61, 0);}}
+@-moz-keyframes pulse {to {box-shadow: 0 0 0 45px rgba(232, 76, 61, 0);}}
+@-ms-keyframes pulse {to {box-shadow: 0 0 0 45px rgba(232, 76, 61, 0);}}
+@keyframes pulse {to {box-shadow: 0 0 0 45px rgba(232, 76, 61, 0);}}
 

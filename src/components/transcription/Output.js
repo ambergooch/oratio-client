@@ -2,13 +2,13 @@ import React, { useState, useReducer, useRef, useEffect, useContext } from 'reac
 import Highlighter from 'react-highlight-words'
 import { AudioStreamer } from '../modules/AudioStreamer'
 import NewSpeechModal from '../speech/NewSpeechModal'
-import mic from '../../images/mic.gif'
+import microphone from '../../images/microphone.png'
 import micAnimate from '../../images/micAnimate.gif'
 import Timer from '../timer/Timer'
 import Slider from 'react-animated-slider';
 import 'react-animated-slider/build/horizontal.css'
 import APIManager from '../modules/APIManager'
-import { Button } from 'semantic-ui-react'
+import { Button, Icon } from 'semantic-ui-react'
 
 import './Output.css'
 
@@ -179,7 +179,7 @@ console.log(selectedPrompt)
                   return (
                     <div key={prompt.id}>
                       <h2 className="prompt-text" ref={promptRef} value={prompt.prompt}>{prompt.prompt}</h2>
-                      <Button onClick={() => selectButtonClick(prompt.id)}>Select</Button>
+                      <Button color="purple" onClick={() => selectButtonClick(prompt.id)}>Select</Button>
                     </div>
                   )}
                 )}
@@ -190,9 +190,9 @@ console.log(selectedPrompt)
                 {!ready ?
                 <div>
                   {!isListening ?
-                    <img className="record-button" onClick={startButtonClick} alt="Start" id="start_img" src={mic}></img>
+                   <img className="record-button" onClick={startButtonClick} alt="Start" id="start_img" src={microphone}></img>
                     :
-                    <img className="record-button" onClick={stopButtonClick} alt="Stop" id="stop_img" src={micAnimate}></img>
+                    <img className="pulse-button" onClick={stopButtonClick} alt="Stop" id="stop_img" src={microphone}></img>
                   }
                 </div>
                 : ""}
@@ -203,11 +203,12 @@ console.log(selectedPrompt)
                   <p>like count: {wordCount.like}</p>
                 </div> */}
               </div>
-              <div className="letter">
+              <div className="letter" id="pattern">
                 {/* <p>interim {props.interimSentence}</p> */}
                 {/* <p>final {props.finalSentence}</p> */}
-                <p>final output {props.finalOutput}</p>
+                {/* <p id="content">final output {props.finalOutput}</p> */}
                 <Highlighter
+                    id="content"
                     highlightClassName="highlighted-words"
                     searchWords={["um ", "uh ", "like", "so ", "okay", "you know"]}
                     autoEscape={true}

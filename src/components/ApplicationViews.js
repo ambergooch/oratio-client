@@ -109,7 +109,7 @@ const ApplicationViews = (props) => {
 
             <Route
                 exact path="/speeches" render={props => {
-                    return <SpeechHistory {...props} />
+                    return <SpeechHistory {...props} convert={convertToMinutesAndSeconds} />
                 }}
             />
 

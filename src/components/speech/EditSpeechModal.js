@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import useSimpleAuth from "../../hooks/ui/useSimpleAuth";
 import APIManager from "../modules/APIManager"
-import { Button, Header, Image, Modal, Divider, Transition, Form } from 'semantic-ui-react'
+import { Button, Header, Image, Modal, Divider, Transition, Form, TextArea } from 'semantic-ui-react'
 import EventSelector from '../event/EventSelector'
 
 
@@ -36,16 +36,16 @@ const EditSpeechForm = props => {
 
   const updateSpeech = () => {
     const updatedSpeechObject = {
-      transcript: transcript.current.value,
-      actual_time: actual_time.current.value,
-      um: um.current.value,
-      uh: uh.current.value,
-      like: like.current.value
+      transcript: transcript.current.ref.current.value,
+      actual_time: actual_time.current.defaultValue,
+      um: um.current.defaultValue,
+      uh: uh.current.defaultValue,
+      like: like.current.defaultValue
     }
     APIManager.put("speeches", updatedSpeechObject, speechId)
       .then(() => {
-      props.history.push(`/speeches/${speechId}`)
-    })
+        props.history.push('/speeches')
+      })
   };
 
   const addToEvent = () => {
@@ -57,6 +57,7 @@ const EditSpeechForm = props => {
     getSpeech();
   }, []);
 
+  console.log(transcript)
   return (
     <>
       {/* {open && ( */}
@@ -69,27 +70,22 @@ const EditSpeechForm = props => {
             }}>
             <Modal.Header>Edit Speech</Modal.Header>
             <Modal.Content>
-
-                    <div>
-                        <label htmlFor="title">Title</label>
-                        <input type="text" name="title" placeholder="Title" />
-                    </div>
-
-                    <EventSelector {...props} />
-                    <div key={speech.id} className="card">
-
-                        <p>{speech.title}</p>
-                        <p>${speech.date}</p>
-                        <textarea ref={transcript}
-                          type="text"
-                          name="transcript"
-                          defaultValue={speech.transcript} />
-                        <br />
-                        <input type="hidden" ref={actual_time} defaultValue={speech.actual_time}></input>
-                        <input type="hidden" ref={um} defaultValue={speech.um}></input>
-                        <input type="hidden" ref={uh} defaultValue={speech.uh}></input>
-                        <input type="hidden" ref={like} defaultValue={speech.like}></input>
-                    </div>
+              <h3>{speech.title}</h3>
+              <p>${speech.date}</p>
+              <Form>
+                <TextArea ref={transcript}
+                  size="large"
+                  type="text"
+                  name="transcript"
+                  defaultValue={speech.transcript} />
+              </Form>
+              <EventSelector {...props} />
+              <div >
+                <input type="hidden" ref={actual_time} defaultValue={speech.actual_time}></input>
+                <input type="hidden" ref={um} defaultValue={speech.um}></input>
+                <input type="hidden" ref={uh} defaultValue={speech.uh}></input>
+                <input type="hidden" ref={like} defaultValue={speech.like}></input>
+              </div>
             </Modal.Content>
             <Modal.Actions>
                 {/* <Button onClick={handleClose} negative>

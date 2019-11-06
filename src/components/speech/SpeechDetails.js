@@ -1,15 +1,27 @@
 import React, {useState, useEffect } from "react"
 import APIManager from '../modules/APIManager'
-import EditSpeechModal from "./EditSpeechModal";
+import EditSpeechModal from "./EditSpeechModal"
+import { Modal, Button, Header, Icon } from 'semantic-ui-react'
+
 
 const SpeechDetails = props => {
 
     const [singleSpeech, setSpeech] = useState([]);
     const [open, setOpen] = useState()
+    const [deleteOpen, setDeleteOpen] = useState()
+
+    const timeDifference = props.convert(singleSpeech.set_time - singleSpeech.actual_time)
 
     const handleOpen = () => {
         setOpen(true)
-        console.log('click')
+    }
+
+    const handleClose = () => {
+        setOpen(false)
+    }
+
+    const handleDeleteOpen = () => {
+        setDeleteOpen(!deleteOpen)
     }
 
     const getSingleSpeech = () => {
@@ -20,7 +32,12 @@ const SpeechDetails = props => {
           })
     }
 
-    const timeDifference = props.convert(singleSpeech.set_time - singleSpeech.actual_time)
+    const deleteSpeech = (id) => {
+        APIManager.delete("speeches", id)
+        .then(() => {
+          props.history.push("/speeches")
+        })
+    }
 
     useEffect(() => {
         getSingleSpeech()
@@ -28,7 +45,8 @@ const SpeechDetails = props => {
 
     // Only need to send the speech id to Django app. The rest of the process will be handled on the server side
 
-console.log(props)
+console.log(props.id)
+console.log(deleteOpen)
     return (
         <>
             {
@@ -45,6 +63,32 @@ console.log(props)
                   <br/>
                   <button onClick={handleOpen}>Edit</button>
                   <EditSpeechModal {...props} open={open} />
+                  <Modal
+                    trigger={<Button onClick={handleDeleteOpen}
+                                size="tiny"
+                                style={{marginBottom: '30px', borderRadius: 0}}
+                                negative>
+                                    Delete
+                            </Button>}
+                    open={deleteOpen}
+                    onClose={handleDeleteOpen}
+                    basic
+                    size='tiny'>
+                        <Header icon='exclamation circle' content='Delete this speech' />
+                        <Modal.Content>
+                            <p>Are you sure you want to permanently delete this speech?</p>
+                        </Modal.Content>
+                        <Modal.Actions>
+                            <Button basic color='red' onClick={handleDeleteOpen} inverted >
+                                <Icon name='remove' /> No
+                            </Button>
+                            <Button color='green' onClick={() => {deleteSpeech(); handleDeleteOpen()}} inverted>
+                                <Icon name='checkmark' /> Yes
+                            </Button>
+                        </Modal.Actions>
+                    </Modal>
+
+
               </section>
             }
         </>

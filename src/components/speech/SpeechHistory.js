@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Checkbox } from 'semantic-ui-react'
 import APIManager from "../modules/APIManager";
+import SpeechDetails from "./SpeechDetails"
 
 const SpeechHistory = props => {
 
@@ -47,14 +48,7 @@ const SpeechHistory = props => {
     })
   }
 
-  const deleteSpeech = (id) => {
-    APIManager.delete("speeches", id).then(() => {
-      APIManager.get("speeches")
-          .then((response) => {
-              setSpeeches(response)
-          })
-    })
-  }
+
 
   useEffect(() => {
     getSpeeches()
@@ -62,7 +56,7 @@ const SpeechHistory = props => {
     getEventsWithSpeeches()
   }, [])
 
-  console.log(allSpeeches)
+  console.log(props)
   return (
       <>
         <div className="speech-items">
@@ -74,7 +68,6 @@ const SpeechHistory = props => {
                   return (
                       <div key={speech.id}>
                           <a href={`/speeches/${speech.id}`}><h5>{speech.title}</h5></a>
-                          <button onClick={() => {deleteSpeech(speech.id)}}>Delete</button>
                       </div>
                   )
                   })
@@ -91,9 +84,7 @@ const SpeechHistory = props => {
                       })
                       .map(speech => {
                         return (
-                          <a key={speech.id} className="nav-link" href={`/speeches/${speech.id}`}>
-                                <li>{speech.title}</li>
-                          </a>
+                          <SpeechDetails {...props} key={speech.id} id={speech.id} convert={props.convert} />
                         )
                       })}
                     </div>
