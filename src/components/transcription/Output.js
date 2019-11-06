@@ -1,14 +1,16 @@
-import React, { useState, useReducer, useRef, useEffect } from 'react'
+import React, { useState, useReducer, useRef, useEffect, useContext } from 'react'
 import Highlighter from 'react-highlight-words'
 import { AudioStreamer } from '../modules/AudioStreamer'
 import NewSpeechModal from '../speech/NewSpeechModal'
 import mic from '../../images/mic.gif'
 import micAnimate from '../../images/micAnimate.gif'
 import Timer from '../timer/Timer'
-import moment from 'moment'
-import 'rc-time-picker/assets/index.css'
+import Slider from 'react-animated-slider';
+import 'react-animated-slider/build/horizontal.css'
 import APIManager from '../modules/APIManager'
-import './Practice.css'
+import { Button } from 'semantic-ui-react'
+
+import './Output.css'
 
 function reducer(currentState, newState) {
   return {...currentState, ...newState}
@@ -16,14 +18,20 @@ function reducer(currentState, newState) {
 
 const Output = props => {
 
+    const elipsis = '...'
+    const [prompts, setPrompts] = useState([])
+    const [selectedPrompt, setSelectedPrompt] = useState(null)
     const [wordCount, setWordCount] = useState([])
     const [isListening, setIsListening] = useState(false)
     const [ready, setReady] = useState(false)
+    const [open, setOpen] = useState()
+
     const [{running, lapse}, setState] = useReducer(reducer, {
           running: false,
           lapse: 0,
         })
     const intervalRef = useRef(null)
+    const promptRef = useRef('')
 
     const count = (main_str, sub_str) => {
         main_str += '';
@@ -96,6 +104,11 @@ const Output = props => {
         return chunks;
     }
 
+    const selectButtonClick = (prompt) => {
+      setSelectedPrompt(prompt)
+      setOpen(true)
+    }
+
     const handleRunClick = () => {
       if (running) {
         clearInterval(intervalRef.current)
@@ -126,6 +139,11 @@ const Output = props => {
       })
     }
 
+    const getPrompts = () => {
+      APIManager.get("prompts")
+      .then(setPrompts)
+    }
+
     const updateSpeech = (id) => {
       const updatedSpeechObject = {
         actual_time: lapse,
@@ -141,34 +159,53 @@ const Output = props => {
     }
 
     useEffect(() => {
+      if (window.location.pathname === "/interview") {
+        getPrompts()
+      }
       if (wordCount > 0) {
         updateSpeech(props.currentSpeech[0].id)
       }
     }, [wordCount])
 
-console.log(props)
+console.log(prompt)
+console.log(selectedPrompt)
     return (
         <>
           <article className="speech-output">
-            <NewSpeechModal {...props} setReady={setReady} />
-              {!ready ?
-              <div>
-                {!isListening ?
-                  <img className="record-button" onClick={startButtonClick} alt="Start" id="start_img" src={mic}></img>
-                  :
-                  <img className="record-button" onClick={stopButtonClick} alt="Stop" id="stop_img" src={micAnimate}></img>
-                }
+            <NewSpeechModal {...props} setReady={setReady} setOpen={setOpen} open={open} selectedPrompt={selectedPrompt} />
+            {window.location.pathname === "/interview" ?
+              <Slider>
+                {prompts.map((prompt) => {
+                  return (
+                    <div key={prompt.id}>
+                      <h2 className="prompt-text" ref={promptRef} value={prompt.prompt}>{prompt.prompt}</h2>
+                      <Button onClick={() => selectButtonClick(prompt.id)}>Select</Button>
+                    </div>
+                  )}
+                )}
+              </Slider>
+            : ""}
+              <div className="panel">
+                <Timer {...props} lapse={lapse} running={running}/>
+                {!ready ?
+                <div>
+                  {!isListening ?
+                    <img className="record-button" onClick={startButtonClick} alt="Start" id="start_img" src={mic}></img>
+                    :
+                    <img className="record-button" onClick={stopButtonClick} alt="Stop" id="stop_img" src={micAnimate}></img>
+                  }
+                </div>
+                : ""}
+                <p className="interim-string">interim {props.interimSentence + elipsis}</p>
+                {/* <div className="word-count">
+                  <p>um count: {wordCount.um}</p>
+                  <p>uh count: {wordCount.uh}</p>
+                  <p>like count: {wordCount.like}</p>
+                </div> */}
               </div>
-              : ""}
-              <Timer {...props} lapse={lapse} running={running}/>
-              <div className="word-count">
-                <p>um count: {wordCount.um}</p>
-                <p>uh count: {wordCount.uh}</p>
-                <p>like count: {wordCount.like}</p>
-              </div>
-              <div className='letter'>
-                <p>interim {props.interimSentence}</p>
-                <p>final {props.finalSentence}</p>
+              <div className="letter">
+                {/* <p>interim {props.interimSentence}</p> */}
+                {/* <p>final {props.finalSentence}</p> */}
                 <p>final output {props.finalOutput}</p>
                 <Highlighter
                     highlightClassName="highlighted-words"

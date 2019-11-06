@@ -3,7 +3,7 @@ import { Route, withRouter } from "react-router-dom"
 import Register from "./auth/Register"
 import Login from "./auth/Login"
 import Dictaphone from "./transcription/Dictaphone"
-import Output from "./transcription/Practice"
+import Output from "./transcription/Output"
 import LandingPage from "./landing/LandingPage"
 import SpeechHistory from "./speech/SpeechHistory"
 import SpeechDetails from "./speech/SpeechDetails"
@@ -80,6 +80,17 @@ const ApplicationViews = (props) => {
             />
             <Route
                 exact path="/practice" render={props => {
+                    return <Output {...props}
+                        interimSentence={interimSentence}
+                        finalSentence={finalSentence}
+                        finalOutput={finalOutput}
+                        getCurrentSpeech={getCurrentSpeech}
+                        currentSpeech={currentSpeech}
+                    />
+                }}
+            />
+            <Route
+                exact path="/interview" render={props => {
                     return <Output {...props}
                         interimSentence={interimSentence}
                         finalSentence={finalSentence}

@@ -10,18 +10,18 @@ const NewSpeechModal = props => {
     const set_time = useRef()
     const childRef = useRef({})
 
-    const [open, setOpen] = useState()
     const [closeOnEscape, setCloseOnEscape] = useState()
     const [closeOnDimmerClick, setCloseOnDimmerClick] = useState()
     const [time, setTime] = useState('')
+    const [speech, setSpeech] = useState({})
 
     const handleOpen = () => {
-        setOpen(true)
+        props.setOpen(true)
         console.log('click')
     }
 
     const handleClose = () => {
-      setOpen(false)
+        props.setOpen(false)
     }
 
     const handleFieldChange = evt => {
@@ -39,7 +39,12 @@ const NewSpeechModal = props => {
     }
 
     const convertToMilliseconds = (time) => {
-       return Number(time.split(':')[0]) * 60 * 1000 + Number(time.split(':')[1]) * 1000
+        const timeParts = time.split(":")
+        console.log(parseInt(timeParts))
+        console.log(parseInt(timeParts[0]*3600))
+        console.log(parseInt(timeParts[1]*60))
+        console.log(parseInt(timeParts[2]))
+        return ((parseInt(timeParts[0]*3600) + parseInt(timeParts[1]*60) + parseInt(timeParts[2])) * 1000)
     }
 
     // function that adds a new speech to the database
@@ -50,7 +55,7 @@ const NewSpeechModal = props => {
         const newSpeechObject = {
             title: title.current.value,
             date: "",
-            prompt: null,
+            prompt: props.selectedPrompt,
             set_time: convertToMilliseconds(set_time.current.state.value)
         }
         // post request from API manager that connects create method on server side to post on client side
@@ -59,6 +64,7 @@ const NewSpeechModal = props => {
         .then(newSpeech => {
           console.log("created speech", newSpeech)
           addSpeechToEvent(newSpeech)
+          setSpeech(newSpeech)
         })
     }
 
@@ -81,6 +87,8 @@ const NewSpeechModal = props => {
         setCloseOnEscape(false)
     }, []);
 
+
+    console.log(convertToMilliseconds('0:5:45'))
     return (
         <>
         <style>
@@ -101,9 +109,9 @@ const NewSpeechModal = props => {
             animation='scale'
             duration={500}
         >
-        {open && (
+        {props.open && (
         <Modal
-            open={open}
+            open={props.open}
             closeOnEscape={closeOnEscape}
             closeOnDimmerClick={closeOnDimmerClick}
             size='small'

@@ -1,13 +1,50 @@
 import React, { useEffect, useState, useRef } from "react";
+import { Checkbox } from 'semantic-ui-react'
 import APIManager from "../modules/APIManager";
 
 const SpeechHistory = props => {
 
   const [allSpeeches, setSpeeches] = useState([])
+  const [completedSpeeches, setCompletedSpeeches] = useState([])
+  const [populatedEvents, setPopulatedEvents] = useState([])
+  const [byEvent, setByEvent] = useState(false)
 
-  const getMySpeeches = () => {
+  const handleToggle = () => {
+    setByEvent(!byEvent)
+  }
+
+  const getSpeeches = () => {
     APIManager.get("speeches")
     .then(setSpeeches)
+  }
+
+  const getCompletedSpeeches = () => {
+    fetch('http://localhost:8000/speeches?complete=true', {
+        "method": "GET",
+        "headers": {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "Authorization": `Token ${localStorage.getItem("oratio_token")}`
+        }
+    })
+    .then(response => response.json())
+    .then((response) => {
+        setCompletedSpeeches(response)
+    })
+  }
+  const getEventsWithSpeeches = () => {
+    fetch('http://localhost:8000/events?withspeeches=true', {
+        "method": "GET",
+        "headers": {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "Authorization": `Token ${localStorage.getItem("oratio_token")}`
+        }
+    })
+    .then(response => response.json())
+    .then((response) => {
+        setPopulatedEvents(response)
+    })
   }
 
   const deleteSpeech = (id) => {
@@ -19,26 +56,51 @@ const SpeechHistory = props => {
     })
   }
 
-  useEffect(getMySpeeches, [])
+  useEffect(() => {
+    getSpeeches()
+    getCompletedSpeeches()
+    getEventsWithSpeeches()
+  }, [])
 
   console.log(allSpeeches)
   return (
       <>
         <div className="speech-items">
             <h2>Speech History</h2>
-                {
-                    allSpeeches.filter((speech) => {
-                        return speech.actual_time})
-                    .map(speech => {
-                        console.log(speech)
-                        return (
-                            <div key={speech.id}>
-                                <a href={`/speeches/${speech.id}`}><h5>{speech.title}</h5></a>
-                                <button onClick={() => {deleteSpeech(speech.id)}}>Delete</button>
-                            </div>
-                        )
-                    })
+            <Checkbox toggle label='View by event' onChange={handleToggle}/>
+              {!byEvent ?
+                <div>
+                {completedSpeeches.map(speech => {
+                  return (
+                      <div key={speech.id}>
+                          <a href={`/speeches/${speech.id}`}><h5>{speech.title}</h5></a>
+                          <button onClick={() => {deleteSpeech(speech.id)}}>Delete</button>
+                      </div>
+                  )
+                  })
                 }
+                </div>
+              :
+                <div>
+                {populatedEvents.map(event => {
+                  return (
+                    <div key={event.id}>
+                      <h5>{event.name}</h5>
+                      {event.speeches.filter(speech => {
+                        return speech.actual_time !== null
+                      })
+                      .map(speech => {
+                        return (
+                          <a key={speech.id} className="nav-link" href={`/speeches/${speech.id}`}>
+                                <li>{speech.title}</li>
+                          </a>
+                        )
+                      })}
+                    </div>
+                  )
+                })}
+                </div>
+              }
         </div>
     </>
   )

@@ -13,6 +13,10 @@
   position: relative;
   float: right;
   margin-right: 200px;
-  padding-top: 150px;
+  padding-top: 100px;
+}
+
+.red{
+  color: red;
 }
 

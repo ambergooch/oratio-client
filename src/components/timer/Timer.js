@@ -6,13 +6,6 @@ function reducer(currentState, newState) {
 }
 
 const Timer = props =>  {
-//   const [{running, lapse}, setState] = useReducer(reducer, {
-//     running: false,
-//     lapse: 0,
-//   })
-//   const [time, setTime] = useState()
-
-  const intervalRef = useRef(null)
 
   const convertToMinutesAndSeconds = (mil) => {
     const minutes = Math.floor(mil / 60000);
@@ -22,7 +15,8 @@ const Timer = props =>  {
   }
 
   return (
-    <div className='timer-output' style={{textAlign: 'right'}}>
+    <div className='timer-output'>
+    {/* <div className={`timer-output ${timeExceeded ? 'red': ''}`}> */}
       <label
         style={{
           fontSize: '5em',
