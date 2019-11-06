@@ -1,0 +1,28 @@
+.landing-page {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-position: center center;
+    background-size: cover;
+    text-align:center;
+    margin: 0 auto;
+    padding:0;
+    /* background-image: url('../../images/webbackground.gif'); */
+    background-image: url('../../images/purplebackground.jpg');
+}
+
+.title {
+    font: 130px Raleway, sans-serif;
+    letter-spacing: 20px;
+    color: white;
+    margin-left: 60px;
+    margin-bottom: 100px;
+}
+
+.auth-button {
+    margin-right: 20px;
+}

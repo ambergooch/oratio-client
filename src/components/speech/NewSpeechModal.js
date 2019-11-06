@@ -1,104 +1,112 @@
 import React, { useRef, useEffect, useState } from "react";
-import { Button, Header, Image, Modal, Divider, Transition, Form } from 'semantic-ui-react'
-import TimePicker from 'rc-time-picker'
-import 'rc-time-picker/assets/index.css';
+import { Button, Header, Image, Modal, Divider, Transition, Form, Container } from 'semantic-ui-react'
+import TimeField from 'react-simple-timefield'
+// import 'rc-time-picker/assets/index.css';
 import APIManager from '../modules/APIManager'
+import EventSelector from '../event/EventSelector'
 
 const NewSpeechModal = props => {
-    const title = useRef();
-    const set_time = useRef();
-    const events = useRef();
+    const title = useRef()
+    const set_time = useRef()
+    const childRef = useRef({})
 
-    const [fetchedEvents, setFetchedEvents] = useState([]);
-    const [open, setOpen] = useState()
     const [closeOnEscape, setCloseOnEscape] = useState()
     const [closeOnDimmerClick, setCloseOnDimmerClick] = useState()
-    const [setTime, setSetTime] = useState()
+    const [time, setTime] = useState('')
+    const [speech, setSpeech] = useState({})
 
     const handleOpen = () => {
-        setOpen(true)
+        props.setOpen(true)
         console.log('click')
     }
 
     const handleClose = () => {
-      setOpen(false)
+        props.setOpen(false)
     }
 
     const handleFieldChange = evt => {
         console.log(evt)
-        const stateToChange = {};
-        stateToChange[evt.target.id] = evt.target.value;
-        setTime(stateToChange);
+        // const stateToChange = '';
+        // stateToChange[evt.target.id] = evt.target.value;
+        setTime(evt.target.value);
       };
 
-    const handleInput = (input) => {
-        console.log(input)
-        setSetTime(input)
-      }
+    const handleClick = (e) => {
+        e.preventDefault()
+        createNewSpeech()
+        // addSpeechToEvent()
+        handleClose()
+    }
+
+    const convertToMilliseconds = (time) => {
+        const timeParts = time.split(":")
+        return ((parseInt(timeParts[0]*3600) + parseInt(timeParts[1]*60) + parseInt(timeParts[2])) * 1000)
+    }
 
     // function that adds a new speech to the database
-    // this function is being called when you click the add to product button
-    const addToSpeeches = e => {
-        e.preventDefault()
+    // this function is being called when you click the start button
+    const createNewSpeech = e => {
+
         // object that grabs all the values for the new speech
         const newSpeechObject = {
             title: title.current.value,
             date: "",
-            set_time: set_time.current.value,
-            actual_time: null,
-            transcript: "",
-            events: events.current.value,
-            um: null,
-            uh: null,
-            like: null
+            prompt: props.selectedPrompt,
+            set_time: convertToMilliseconds(set_time.current.state.value)
         }
         // post request from API manager that connects create method on server side to post on client side
-        APIManager.post("speeches", newSpeechObject).then(() => {
-            props.history.push("/");
-          });
+        APIManager.post("speeches", newSpeechObject)
+        .then((newSpeech) => newSpeech.json())
+        .then(newSpeech => {
+          console.log("created speech", newSpeech)
+          addSpeechToEvent(newSpeech)
+          setSpeech(newSpeech)
+        })
     }
-  // function gets all events for dropdown
-  const getEvents = () => {
-    fetch(`http://localhost:8000/events`, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
+
+    const addSpeechToEvent = (speech) => {
+
+      const eventObject = {
+          name: childRef.current.state.value,
+          speech_id: speech.id
       }
-    })
-      .then(response => response.json())
-      .then(response => {
-        setFetchedEvents(response);
-      });
-  };
 
-  useEffect(() => {
-    getEvents();
-    setCloseOnDimmerClick(false)
-    setCloseOnEscape(false)
-  }, []);
+      APIManager.post("events", eventObject)
+      .then(() => {
+          console.log("speech added to event")
+          props.setReady(true)
+      })
+    }
 
+    useEffect(() => {
+        setCloseOnDimmerClick(false)
+        setCloseOnEscape(false)
+    }, []);
+
+    console.log(childRef.current)
     return (
         <>
-        <style>{`
-          .ui.dimmer {
-            transition: background-color 0.5s ease;
-            background-color: transparent;
-          }
+        <style>
+        {`
+            .ui.dimmer {
+                transition: background-color 0.5s ease;
+                background-color: transparent;
+            }
 
-           .ui.dimmer {
-            background-color: orange;
-          }
-        `}</style>
+            .ui.dimmer {
+                background-color: purple;
+            }
+        `}
+        </style>
         <Button content='Open' onClick={handleOpen} />
 
         <Transition.Group
             animation='scale'
             duration={500}
         >
-        {open && (
+        {props.open && (
         <Modal
-            open={open}
+            open={props.open}
             closeOnEscape={closeOnEscape}
             closeOnDimmerClick={closeOnDimmerClick}
             size='small'
@@ -110,42 +118,27 @@ const NewSpeechModal = props => {
             }}>
             <Modal.Header>Create a New Speech</Modal.Header>
             <Modal.Content>
-                <form>
-                    <div>
-                        <label htmlFor="title">Title</label>
-                        <input type="text" name="title" ref={title} placeholder="Title" />
-                    </div>
-                    <div>
+                <Form>
+                    <Container style={{marginBottom: 20}}>
+                        <input style={{height: 45, fontSize: 16}} type="text" name="title" ref={title} placeholder="Enter a Title" />
+                    </Container>
+                    <div style={{marginBottom: 20}}>
                         <label htmlFor="set_time">Set a time limit</label>
-                        <input type="text" name="set_time" id="set_time" ref={set_time} placeholder="Enter time" required />
-                        {/* <input type="time" value="mm:ss" min="0:00" max="0:00:3600" name="set_time" id="set_time" ref={set_time} placeholder="Enter time" required /> */}
-                        {/* <TimePicker value={setTime} popupStyle={{ fontSize: '30px' }}
-                            showHour={false}
-                            secondStep={15}
-                            clearText='clear'
-                            onChange={(e) => handleInput(e)}/> */}
+                        <br></br>
+                        <TimeField  style={{ width: '150px', fontSize: '18px' }}
+                            ref={set_time}
+                            name='set_time'
+                            value={time}
+                            onChange={(e, value) => handleFieldChange(e, value)}
+                            showSeconds />
                     </div>
-                    <div>
-                        <label htmlFor="events">Select an Event</label>
-                        <select type="text" name="events" ref={events}>
-                            <option>Select an Event</option>
-                            {fetchedEvents.map(event => {
-                                return (
-                                    <option key={event.id} id={event.id} value={event.id}>
-                                        {event.name}
-                                    </option>
-                                )
-                            })}
-                        </select>
-                    </div>
-                </form>
+                    <br />
+                    <EventSelector {...props} getRef={childRef}/>
+                </Form>
             </Modal.Content>
             <Modal.Actions>
-                {/* <Button onClick={handleClose} negative>
-                Close
-                </Button> */}
                 <Button
-                onClick={e => addToSpeeches(e)}
+                onClick={handleClick}
                 positive
                 content='Start'
                 />

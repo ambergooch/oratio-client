@@ -14,18 +14,6 @@ export default Object.create(null, {
       }).then(e => e.json())
     }
   },
-  getMy: {
-    value: function (myproducts) {
-      return fetch(`${remoteURL}/${myproducts}`, {
-        "method": "GET",
-        "headers": {
-          "Accept": "application/json",
-          "Content-Type": "application/json",
-          "Authorization": `Token ${token}`
-        },
-      }).then(e => e.json())
-    }
-  },
   get: {
     value: function (name) {
       return fetch(`${remoteURL}/${name}`, {
@@ -48,7 +36,7 @@ export default Object.create(null, {
           "Authorization": `Token ${token}`
         },
         body: JSON.stringify(newObject)
-      }).then(data => data.json())
+      })
     }
   },
   put: {

@@ -1,4 +1,4 @@
-/* @import url("https://fonts.googleapis.com/css?family=Open+Sans"); */
+@import url("https://fonts.googleapis.com/css?family=Open+Sans");
 
 .timer-button {
     border: '1px solid #ccc';
@@ -7,5 +7,16 @@
     padding: 15;
     margin: 5;
     width: 200;
-  }
+}
+
+.timer-output {
+  position: relative;
+  float: right;
+  margin-right: 200px;
+  padding-top: 100px;
+}
+
+.red{
+  color: red;
+}
 

@@ -1,7 +1,7 @@
 import React, { useRef } from "react"
 import { withRouter } from "react-router-dom"
 import useSimpleAuth from "../../hooks/ui/useSimpleAuth"
-import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react'
+import { Button, Form, Grid, Header, Icon, Message, Segment } from 'semantic-ui-react'
 
 // import "./Login.css"
 
@@ -35,54 +35,55 @@ const Register = props => {
         <main style={{textAlign:"center"}}>
             <Grid textAlign='center' style={{ height: '160vh' }} verticalAlign='middle'>
                 <Grid.Column style={{ maxWidth: 600 }}>
-                <Header as='h2' color='teal' textAlign='center'>
-                    <Image src='/logo.png' /> Register for Oratio
+                <Header as='h2' color='purple' textAlign='center'>
+                    <Icon size='small' color='purple' name='comment' />
+                     Register for Oratio
                 </Header>
                 <Form size='huge' onSubmit={handleRegister}>
                     <Segment stacked size='huge' style={{ height: 740, borderRadius: '10px' }}>
                         <Form.Field style={{margin: 40}}>
-                            <input fluid ref={userName}
+                            <input ref={userName}
                                 type="text"
                                 className="form-control"
                                 placeholder='Username'
                                 required autoFocus/>
                         </Form.Field>
                         <Form.Field style={{margin: 40}}>
-                            <input fluid ref={email}
+                            <input ref={email}
                                 type="email"
                                 className="form-control"
                                 placeholder='Email'
                                 required />
                         </Form.Field>
                         <Form.Field style={{margin: 40}}>
-                            <input fluid ref={password}
+                            <input ref={password}
                                 type="password"
                                 className="form-control"
                                 placeholder='Password'
                                 required />
                         </Form.Field>
                         <Form.Field style={{margin: 40}}>
-                            <input fluid ref={verifyPassword}
+                            <input ref={verifyPassword}
                                 type="password"
                                 className="form-control"
                                 placeholder='Verify Password'
                                 required />
                         </Form.Field>
                         <Form.Field style={{margin: 40}}>
-                            <input fluid ref={firstName}
+                            <input ref={firstName}
                                 type="text"
                                 className="form-control"
                                 placeholder='First Name'
                                 required />
                         </Form.Field>
                         <Form.Field style={{margin: 40}}>
-                            <input fluid ref={lastName}
+                            <input ref={lastName}
                                 type="text"
                                 className="form-control"
                                 placeholder='Last Name'
                                 required />
                         </Form.Field>
-                    <Button type='submit' color='teal' fluid size='huge'>
+                    <Button type='submit' color='purple'fluid size='huge'>
                         Register
                     </Button>
                     </Segment>
