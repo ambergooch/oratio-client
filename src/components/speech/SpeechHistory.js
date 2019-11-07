@@ -33,6 +33,7 @@ const SpeechHistory = props => {
         setCompletedSpeeches(response)
     })
   }
+
   const getEventsWithSpeeches = () => {
     fetch('http://localhost:8000/events?withspeeches=true', {
         "method": "GET",
@@ -47,8 +48,6 @@ const SpeechHistory = props => {
         setPopulatedEvents(response)
     })
   }
-
-
 
   useEffect(() => {
     getSpeeches()

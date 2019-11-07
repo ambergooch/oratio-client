@@ -1,9 +1,5 @@
-import React, {useReducer, useState, useRef, useEffect} from 'react'
+import React from 'react'
 import './Timer.css'
-
-function reducer(currentState, newState) {
-  return {...currentState, ...newState}
-}
 
 const Timer = props =>  {
 
@@ -24,14 +20,7 @@ const Timer = props =>  {
         }}
       >
         {convertToMinutesAndSeconds(props.lapse)}
-
       </label>
-      {/* <button className='timer-button' onClick={props.handleRunClick}>
-        {props.running ? 'Stop' : 'Start'}
-      </button> */}
-      {/* <button className='timer-button' onClick={props.handleClearClick}>
-        Clear
-      </button> */}
     </div>
   )
 }

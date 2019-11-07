@@ -3,12 +3,11 @@ import Highlighter from 'react-highlight-words'
 import { AudioStreamer } from '../modules/AudioStreamer'
 import NewSpeechModal from '../speech/NewSpeechModal'
 import microphone from '../../images/microphone.png'
-import micAnimate from '../../images/micAnimate.gif'
 import Timer from '../timer/Timer'
 import Slider from 'react-animated-slider';
 import 'react-animated-slider/build/horizontal.css'
 import APIManager from '../modules/APIManager'
-import { Button, Icon } from 'semantic-ui-react'
+import { Button } from 'semantic-ui-react'
 import './Output.css'
 
 function reducer(currentState, newState) {
@@ -131,12 +130,6 @@ const Output = props => {
       setIsListening(false)
       AudioStreamer.stopRecording0()
       handleRunClick()
-      // setWordCount({
-      //   um: count(props.finalOutput, 'um '),
-      //   uh: count(props.finalOutput, 'uh '),
-      //   like: count(props.finalOutput, 'like'),
-      //   so: count(props.finalOutput, 'so ')
-      // })
       getCurrentSpeech()
       console.log(wordCount)
     }

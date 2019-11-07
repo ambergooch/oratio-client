@@ -5,7 +5,6 @@ import { Modal, Button, Header, Icon, Message, Step } from 'semantic-ui-react'
 import './SpeechDetails.css'
 import './Chart.css'
 
-
 const SpeechDetails = props => {
 
     const [singleSpeech, setSpeech] = useState({date: ""});
@@ -50,10 +49,6 @@ const SpeechDetails = props => {
         getSingleSpeech()
     }, [])
 
-    // Only need to send the speech id to Django app. The rest of the process will be handled on the server side
-
-console.log((singleSpeech.um)/.1)
-console.log(singleSpeech.date.split(/[- : T]/))
     return (
         <>
             {

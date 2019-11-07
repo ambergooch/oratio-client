@@ -1,7 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
-import { Button, Header, Image, Modal, Divider, Transition, Form, Container } from 'semantic-ui-react'
+import { Button, Modal, Transition, Form, Container } from 'semantic-ui-react'
 import TimeField from 'react-simple-timefield'
-// import 'rc-time-picker/assets/index.css';
 import APIManager from '../modules/APIManager'
 import EventSelector from '../event/EventSelector'
 
@@ -17,7 +16,6 @@ const NewSpeechModal = props => {
 
     const handleOpen = () => {
         props.setOpen(true)
-        console.log('click')
     }
 
     const handleClose = () => {
@@ -26,15 +24,12 @@ const NewSpeechModal = props => {
 
     const handleFieldChange = evt => {
         console.log(evt)
-        // const stateToChange = '';
-        // stateToChange[evt.target.id] = evt.target.value;
         setTime(evt.target.value);
       };
 
     const handleClick = (e) => {
         e.preventDefault()
         createNewSpeech()
-        // addSpeechToEvent()
         handleClose()
     }
 

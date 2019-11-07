@@ -67,10 +67,20 @@ const EditSpeechForm = props => {
   console.log(speech)
   return (
     <>
-      {/* {open && ( */}
+      <style>
+      {`
+          .ui.dimmer {
+              transition: background-color 0.5s ease;
+              background-color: transparent;
+          }
+
+          .ui.dimmer {
+              background-color: purple;
+          }
+      `}
+      </style>
       <div>
         <Modal
-
             closeIcon
             open={open}
             open={props.open}
@@ -81,7 +91,6 @@ const EditSpeechForm = props => {
             <Modal.Header>Edit Speech</Modal.Header>
             <Modal.Content>
               <h3>{speech.title}</h3>
-              <p>${speech.date}</p>
               <Form>
                 <TextArea ref={transcript}
                   size="large"
@@ -89,6 +98,7 @@ const EditSpeechForm = props => {
                   name="transcript"
                   defaultValue={speech.transcript} />
               </Form>
+              <br />
               <EventSelector {...props} getRef={childRef} />
               <div >
                 <input type="hidden" ref={actual_time} value={speech.actual_time}></input>
@@ -98,19 +108,14 @@ const EditSpeechForm = props => {
               </div>
             </Modal.Content>
             <Modal.Actions>
-                {/* <Button onClick={handleClose} negative>
-                Close
-                </Button> */}
-                <Button
-                onClick={updateSpeech}
-                positive
-                content='Submit'
-                />
+              <Button
+              onClick={updateSpeech}
+              positive
+              content='Submit'
+              />
             </Modal.Actions>
         </Modal>
-
-        </div>
-      {/* )} */}
+      </div>
     </>
   );
 };
