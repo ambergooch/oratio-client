@@ -113,7 +113,7 @@
     display: inline;
     padding-left: 20px;
     line-height: 60px;
-    color: gray;
+    color: white;
 }
 @keyframes anim-lightspeed-in {
     0% {

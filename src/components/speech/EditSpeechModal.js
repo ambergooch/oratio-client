@@ -8,8 +8,8 @@ import EventSelector from '../event/EventSelector'
 const EditSpeechForm = props => {
   const transcript = useRef();
   const actual_time = useRef();
-  const um = useRef();
-  const uh = useRef();
+  const well = useRef();
+  const so = useRef();
   const like = useRef();
   const childRef = useRef({})
 
@@ -39,8 +39,8 @@ const EditSpeechForm = props => {
     const updatedSpeechObject = {
       transcript: transcript.current.ref.current.value,
       actual_time: actual_time.current.value,
-      um: um.current.value,
-      uh: uh.current.value,
+      well: well.current.value,
+      so: so.current.value,
       like: like.current.value
     }
     APIManager.put("speeches", updatedSpeechObject, speechId)
@@ -63,8 +63,6 @@ const EditSpeechForm = props => {
     getSpeech();
   }, []);
 
-  console.log(um)
-  console.log(speech)
   return (
     <>
       <style>
@@ -103,8 +101,8 @@ const EditSpeechForm = props => {
               <EventSelector {...props} getRef={childRef} />
               <div >
                 <input type="hidden" ref={actual_time} value={speech.actual_time}></input>
-                <input type="hidden" ref={um} value={speech.um}></input>
-                <input type="hidden" ref={uh} value={speech.uh}></input>
+                <input type="hidden" ref={well} value={speech.well}></input>
+                <input type="hidden" ref={so} value={speech.so}></input>
                 <input type="hidden" ref={like} value={speech.like}></input>
               </div>
             </Modal.Content>

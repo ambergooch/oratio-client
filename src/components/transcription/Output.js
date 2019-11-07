@@ -159,8 +159,8 @@ const Output = props => {
       const updatedSpeechObject = {
         actual_time: lapse,
         transcript: props.finalOutput,
-        um: count(props.finalOutput, 'um '),
-        uh: count(props.finalOutput, 'uh '),
+        well: count(props.finalOutput, 'well '),
+        so: count(props.finalOutput, 'so '),
         like: count(props.finalOutput, 'like'),
       }
       APIManager.put("speeches", updatedSpeechObject, id)
@@ -212,7 +212,7 @@ console.log(wordCount)
               }
             </div>
             : ""}
-            <p className="interim-string">interim {props.interimSentence + elipsis}</p>
+            <p className="interim-string">{props.interimSentence + elipsis}</p>
           </div>
           <div className="letter" id="pattern">
             <Highlighter

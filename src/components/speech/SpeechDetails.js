@@ -4,6 +4,7 @@ import APIManager from '../modules/APIManager'
 import EditSpeechModal from "./EditSpeechModal"
 import { Modal, Button, Header, Icon, Message, Step } from 'semantic-ui-react'
 import Highlighter from 'react-highlight-words'
+import moment from 'moment'
 import './SpeechDetails.css'
 import './Chart.css'
 
@@ -14,7 +15,7 @@ const SpeechDetails = props => {
     const [deleteOpen, setDeleteOpen] = useState()
 
     const timeDifference = props.convert(singleSpeech.set_time - singleSpeech.actual_time)
-
+    let id = null
     console.log(singleSpeech.set_time - singleSpeech.actual_time)
     console.log(props.convert(singleSpeech.set_time - singleSpeech.actual_time))
     const handleOpen = () => {
@@ -29,8 +30,12 @@ const SpeechDetails = props => {
         setDeleteOpen(!deleteOpen)
     }
 
-    const getSingleSpeech = () => {
-        const id = props.match.params.speechId
+    const getSingleSpeech = (id) => {
+        if (props.byEvent) {
+            id = props.id
+        } else {
+            id = props.match.params.speechId
+        }
         APIManager.getOne("speeches", id)
           .then(response => {
             setSpeech(response)
@@ -53,6 +58,7 @@ const SpeechDetails = props => {
         getSingleSpeech()
     }, [])
 
+    console.log(moment(timeDifference))
     return (
         <>
             {
@@ -137,13 +143,13 @@ const SpeechDetails = props => {
                         <div className="chart chart--dev">
                             <span className="chart__title">Filler Words</span>
                             <ul className="chart--horiz">
-                                <strong className="chart__word">UM</strong>
-                                <li className="chart__bar" style={{width: `${singleSpeech.um/.2}%`}}>
-                                    <p className="chart__label">{singleSpeech.um}</p>
+                                <strong className="chart__word">WELL</strong>
+                                <li className="chart__bar" style={{width: `${singleSpeech.well/.2}%`}}>
+                                    <p className="chart__label">{singleSpeech.well}</p>
                                 </li>
-                                <strong className="chart__word">UH</strong>
-                                <li className="chart__bar" style={{width: `${singleSpeech.uh/.2}%`}}>
-                                    <span className="chart__label">{singleSpeech.uh}</span>
+                                <strong className="chart__word">SO</strong>
+                                <li className="chart__bar" style={{width: `${singleSpeech.so/.2}%`}}>
+                                    <span className="chart__label">{singleSpeech.so}</span>
                                 </li>
                                 <strong className="chart__word">LIKE</strong>
                                 <li className="chart__bar" style={{width: `${singleSpeech.like/.2}%`}}>

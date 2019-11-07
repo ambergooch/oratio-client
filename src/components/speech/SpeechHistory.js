@@ -1,7 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Checkbox } from 'semantic-ui-react'
 import APIManager from "../modules/APIManager";
 import SpeechDetails from "./SpeechDetails"
+import { Checkbox, Grid } from 'semantic-ui-react'
+import Slider from 'react-animated-slider';
+
 
 const SpeechHistory = props => {
 
@@ -58,15 +60,15 @@ const SpeechHistory = props => {
   console.log(props)
   return (
       <>
-        <div className="speech-items">
+        <div className="speech-items" style={{paddingTop: 20, paddingLeft: 30}}>
             <h2>Speech History</h2>
             <Checkbox toggle label='View by event' onChange={handleToggle}/>
               {!byEvent ?
                 <div>
                 {completedSpeeches.map(speech => {
                   return (
-                      <div key={speech.id}>
-                          <a href={`/speeches/${speech.id}`}><h5>{speech.title}</h5></a>
+                      <div key={speech.id} style={{margin: 20}}>
+                          <a href={`/speeches/${speech.id}`}><h3>{speech.title}</h3></a>
                       </div>
                   )
                   })
@@ -77,13 +79,23 @@ const SpeechHistory = props => {
                 {populatedEvents.map(event => {
                   return (
                     <div key={event.id}>
-                      <h5>{event.name}</h5>
+                      <ul>{event.name}</ul>
                       {event.speeches.filter(speech => {
                         return speech.actual_time !== null
                       })
                       .map(speech => {
                         return (
-                          <SpeechDetails {...props} key={speech.id} id={speech.id} convert={props.convert} />
+                          // <Slider className='history-slider'>
+                            <Grid relaxed columns={4}>
+                              <Grid.Column>
+                                <a href={`/speeches/${speech.id}`}><h3>{speech.title}</h3></a>
+
+                              </Grid.Column>
+                            </Grid>
+                            /* <div style={{width: '50%', height: '50%'}}>
+
+                            </div> */
+                          /* </Slider> */
                         )
                       })}
                     </div>
