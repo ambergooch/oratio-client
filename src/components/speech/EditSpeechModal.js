@@ -25,7 +25,7 @@ const EditSpeechForm = props => {
   }
 
   const handleClose = () => {
-    setOpen(false)
+    props.setOpen(false)
   }
 
   const getSpeech = () => {
@@ -70,6 +70,9 @@ const EditSpeechForm = props => {
       {/* {open && ( */}
       <div>
         <Modal
+
+            closeIcon
+            open={open}
             open={props.open}
             size='small'
             onClose={(event) => {

@@ -1,14 +1,16 @@
 .speech-header {
     width: 100%;
     height: 20%;
-    position: fixed;
-    /* top: 50; */
+    position: absolute;
+    top: 150;
+    max-height: 150px;
     /* left: 0;
     right: 0;
     bottom: 0;  */
     background-position: center center;
     /* background-size: cover; */
-    margin: 0 auto;
+    margin: 0;
+    margin-bottom: 30px;
     padding:0;
     /* background-image: url('../../images/webbackground.gif'); */
     background-image: url('../../images/header.png');
@@ -16,12 +18,31 @@
 
 
 .speech-title {
-    font: 30px Cantarell, sans-serif;
+    font: 40px Cantarell, sans-serif;
     letter-spacing: 5px;
     color: white;
-    padding-top: 50px;
+    padding-top: 30px;
     margin-left: 60px;
-    margin-bottom: 100px;
+    margin-bottom: 0px;
     text-align: left;
+}
+.speech-date {
+    font: 20px Cantarell, sans-serif;
+    letter-spacing: 5px;
+    color: white;
+    padding-top: 10px;
+    margin-left: 60px;
+    margin-top: 0px;
+    text-align: left;
+}
 
+.speech-report {
+    padding-top: 180px;
+    padding-left: 30px
+}
+
+.time {
+    display: inline;
+    font: 20px Roboto, sans-serif;
+    margin-right: 40px;
 }
