@@ -12,7 +12,6 @@ const ApplicationViews = (props) => {
     const [interimSentence, setInterimSentence] = useState('')
     const [finalSentence, setFinalSentence] = useState('')
     const [finalOutput, setFinalOutput] = useState('')
-    const [currentSpeech, setCurrentSpeech] = useState([{}])
 
     const convertToMinutesAndSeconds = (mil) => {
         const minutes = Math.floor(mil / 60000);
@@ -37,6 +36,8 @@ const ApplicationViews = (props) => {
             setFinalOutput(finalOutput.concat(' ', finalString))
         }
     };
+
+    console.log(convertToMinutesAndSeconds(-100000))
 
     return (
         <React.Fragment>
@@ -71,8 +72,6 @@ const ApplicationViews = (props) => {
                         interimSentence={interimSentence}
                         finalSentence={finalSentence}
                         finalOutput={finalOutput}
-                        getCurrentSpeech={getCurrentSpeech}
-                        currentSpeech={currentSpeech}
                     />
                 }}
             />
@@ -83,8 +82,6 @@ const ApplicationViews = (props) => {
                         interimSentence={interimSentence}
                         finalSentence={finalSentence}
                         finalOutput={finalOutput}
-                        getCurrentSpeech={getCurrentSpeech}
-                        currentSpeech={currentSpeech}
                     />
                 }}
             />

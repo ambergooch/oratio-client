@@ -177,61 +177,56 @@ const Output = props => {
     }, [wordCount])
 
 console.log(wordCount)
-console.log(props.currentSpeech[0])
     return (
-        <>
-          <article className="speech-output">
-            <NewSpeechModal {...props} setReady={setReady}
-              setOpen={setOpen}
-              open={open}
-              selectedPrompt={selectedPrompt}
+      <>
+        <article className="speech-output">
+          <NewSpeechModal {...props} setReady={setReady}
+            setOpen={setOpen}
+            open={open}
+            selectedPrompt={selectedPrompt}
           />
-            {window.location.pathname === "/interview" ?
-              <Slider>
-                {prompts.map((prompt) => {
-                  return (
-                    <div key={prompt.id}>
-                      <h2 className="prompt-text" ref={promptRef} value={prompt.prompt}>{prompt.prompt}</h2>
-                      <Button color="purple" onClick={() => selectButtonClick(prompt.id)}>Select</Button>
-                    </div>
-                  )}
+          {window.location.pathname === "/interview" ?
+            <Slider>
+              {prompts.map((prompt) => {
+                return (
+                  <div key={prompt.id}>
+                    <h2 className="prompt-text" ref={promptRef} value={prompt.prompt}>{prompt.prompt}</h2>
+                    <Button color="purple" onClick={() => selectButtonClick(prompt.id)}>Select</Button>
+                  </div>
                 )}
-              </Slider>
-            : ""}
-              <div className="panel">
-                <Timer {...props} lapse={lapse} running={running}/>
-                {ready ?
+              )}
+            </Slider>
+          : ""}
+          <div className="panel">
+            <Timer {...props} lapse={lapse} running={running}/>
+            {ready ?
+            <div>
+              {!isListening ?
                 <div>
-                  {!isListening ?
-                   <img className="record-button" onClick={startButtonClick} alt="Start" id="start_img" src={microphone}></img>
-                    :
-                    <img className="pulse-button" onClick={stopButtonClick} alt="Stop" id="stop_img" src={microphone}></img>
-                  }
+                  <img className="record-button" onClick={startButtonClick} alt="Start" id="start_img" src={microphone}></img>
                 </div>
-                : ""}
-                <p className="interim-string">interim {props.interimSentence + elipsis}</p>
-                {/* <div className="word-count">
-                  <p>um count: {wordCount.um}</p>
-                  <p>uh count: {wordCount.uh}</p>
-                  <p>like count: {wordCount.like}</p>
-                </div> */}
-              </div>
-              <div className="letter" id="pattern">
-                {/* <p>interim {props.interimSentence}</p> */}
-                {/* <p>final {props.finalSentence}</p> */}
-                {/* <p id="content">final output {props.finalOutput}</p> */}
-                <Highlighter
-                    id="content"
-                    highlightClassName="highlighted-words"
-                    searchWords={["um ", "uh ", "like", "so ", "okay", "you know"]}
-                    autoEscape={true}
-                    textToHighlight={props.finalOutput}
-                    highlightStyle={{backgroundColor: '#f8d129', color: 'white'}}
-                    findChunks={findAtFirstChar} />
-              </div>
-          </article>
+                :
+                <div>
+                  <img className="pulse-button" onClick={stopButtonClick} alt="Stop" id="stop_img" src={microphone}></img>
+                </div>
+              }
+            </div>
+            : ""}
+            <p className="interim-string">interim {props.interimSentence + elipsis}</p>
+          </div>
+          <div className="letter" id="pattern">
+            <Highlighter
+                id="content"
+                highlightClassName="highlighted-words"
+                searchWords={["like", " so ", "okay", "you know"]}
+                autoEscape={true}
+                textToHighlight={props.finalOutput}
+                highlightStyle={{backgroundColor: '#f8d129', color: 'white'}}
+                 />
+          </div>
+        </article>
 
-        </>
+      </>
     )
 }
 

@@ -1,7 +1,9 @@
 import React, {useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import APIManager from '../modules/APIManager'
 import EditSpeechModal from "./EditSpeechModal"
 import { Modal, Button, Header, Icon, Message, Step } from 'semantic-ui-react'
+import Highlighter from 'react-highlight-words'
 import './SpeechDetails.css'
 import './Chart.css'
 
@@ -13,6 +15,8 @@ const SpeechDetails = props => {
 
     const timeDifference = props.convert(singleSpeech.set_time - singleSpeech.actual_time)
 
+    console.log(singleSpeech.set_time - singleSpeech.actual_time)
+    console.log(props.convert(singleSpeech.set_time - singleSpeech.actual_time))
     const handleOpen = () => {
         setOpen(true)
     }
@@ -54,14 +58,26 @@ const SpeechDetails = props => {
             {
                 <section className="speech-details">
                     <div className="speech-header">
+                        <div className="button-div">
+                        <Button
+                            as={Link}
+                            to="/speeches"
+                            size="small"
+                            color="purple"
+                            icon="chevron left"
+                            labelPosition="left"
+                            content="View all speeches"
+                            style={{float: 'right', display: 'block', marginLeft: 20, marginTop: 20, borderRadius: 0}}
+                        />
+                        </div>
                         <h3 className="speech-title">{singleSpeech.title}</h3>
                         <h4 className="speech-date" style={{marginBottom: 500}}>{convertDate(singleSpeech.date)}</h4>
                     </div>
-                    <div className="speech-report">
+                    <div className="header-buttons">
                         <Modal
                             trigger=
                                 {<Button onClick={handleDeleteOpen}
-                                size="large"
+                                size="small"
                                 style={{marginBottom: 30, borderRadius: 0, float: 'right', marginRight: 20}}
                                 negative>
                                 Delete
@@ -83,34 +99,54 @@ const SpeechDetails = props => {
                                 </Button>
                             </Modal.Actions>
                         </Modal>
-                        <p className="time">
-                            Set time
+                    </div>
+                    <div className="speech-report">
+                        <div className='label-div'>
+                            <h5 className='time-label'>Set time</h5>
+                            <h5 className='time-label'>Actual time</h5>
+                            <h5 className='time-label'>Difference</h5>
+                        </div>
+                        <div className="time">
                             <Message info compact>
                                 {props.convert(singleSpeech.set_time)}
                             </Message>
-                        </p>
-                        <p className="time">
-                            Actual time
+                        </div>
+
+                        <div className="time">
                             <Message info compact>
                                 {props.convert(singleSpeech.actual_time)}
                             </Message>
-                        </p>
-                        <p className="time">difference: {timeDifference}</p>
-                        <Message floating compact style={{width: 800, marginLeft: 30, marginTop: 40}}>{singleSpeech.transcript}</Message>
+                        </div>
+
+                        <div className="time">
+                            <Message className={`compact ${timeDifference < 0 ? 'negative': 'warning'}`}>
+                                {timeDifference}
+                            </Message>
+                        </div>
+                        <Message floating compact style={{width: 800, marginLeft: 30, marginTop: 40}}>
+                            <Highlighter
+                                // id="content"
+                                highlightClassName="highlighted-words"
+                                searchWords={["like", " so ", "okay", "you know"]}
+                                autoEscape={true}
+                                textToHighlight={singleSpeech.transcript}
+                                highlightStyle={{backgroundColor: '#f8d129', color: 'white'}}
+                            />
+                        </Message>
                         <br/>
                         <div className="chart chart--dev">
                             <span className="chart__title">Filler Words</span>
                             <ul className="chart--horiz">
                                 <strong className="chart__word">UM</strong>
-                                <li className="chart__bar" style={{width: `${singleSpeech.um/.1}%`}}>
-                                    <span className="chart__label">{singleSpeech.um}</span>
+                                <li className="chart__bar" style={{width: `${singleSpeech.um/.2}%`}}>
+                                    <p className="chart__label">{singleSpeech.um}</p>
                                 </li>
                                 <strong className="chart__word">UH</strong>
-                                <li className="chart__bar" style={{width: `${singleSpeech.uh/.1}%`}}>
+                                <li className="chart__bar" style={{width: `${singleSpeech.uh/.2}%`}}>
                                     <span className="chart__label">{singleSpeech.uh}</span>
                                 </li>
                                 <strong className="chart__word">LIKE</strong>
-                                <li className="chart__bar" style={{width: `${singleSpeech.like/.1}%`}}>
+                                <li className="chart__bar" style={{width: `${singleSpeech.like/.2}%`}}>
                                     <span className="chart__label">{singleSpeech.like}</span>
                                 </li>
                             </ul>

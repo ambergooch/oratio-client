@@ -74,13 +74,14 @@ const EditSpeechForm = props => {
               background-color: transparent;
           }
 
-          .ui.dimmer {
+          .edit-modal .ui.dimmer {
               background-color: purple;
           }
       `}
       </style>
       <div>
         <Modal
+            className="edit-modal"
             closeIcon
             open={open}
             open={props.open}
@@ -93,9 +94,9 @@ const EditSpeechForm = props => {
               <h3>{speech.title}</h3>
               <Form>
                 <TextArea ref={transcript}
-                  size="large"
                   type="text"
                   name="transcript"
+                  rows='8'
                   defaultValue={speech.transcript} />
               </Form>
               <br />

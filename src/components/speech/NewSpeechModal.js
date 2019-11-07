@@ -74,11 +74,13 @@ const NewSpeechModal = props => {
     }
 
     useEffect(() => {
+        if (window.location.pathname === '/practice') {
+            props.setOpen(true)
+        }
         setCloseOnDimmerClick(false)
         setCloseOnEscape(false)
     }, []);
 
-    console.log(childRef.current)
     return (
         <>
         <style>
@@ -93,7 +95,7 @@ const NewSpeechModal = props => {
             }
         `}
         </style>
-        <Button content='Open' onClick={handleOpen} />
+        {/* <Button content='Open' onClick={handleOpen} /> */}
 
         <Transition.Group
             animation='scale'
@@ -134,8 +136,10 @@ const NewSpeechModal = props => {
             <Modal.Actions>
                 <Button
                 onClick={handleClick}
-                positive
-                content='Start'
+                color='purple'
+                content='Continue'
+                icon='right arrow'
+                labelPosition='right'
                 />
             </Modal.Actions>
         </Modal>
