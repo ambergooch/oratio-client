@@ -1,8 +1,6 @@
-import React, { useRef, useEffect, useState } from "react"
+import React, { useRef } from "react"
 import APIManager from "../modules/APIManager"
 import { Button } from "semantic-ui-react"
-
-
 
 const NewEventForm = props => {
 

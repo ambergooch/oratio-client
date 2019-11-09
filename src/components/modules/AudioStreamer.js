@@ -37,16 +37,6 @@ let bufferSize = 2048,
 
 //vars
 let streamStreaming = false
-    // finalWord = false
-    // removeLastSentence = true
-    // audioElement = document.querySelector('audio'),
-    // resultText = document.getElementById('ResultText'),
-    // recognitionDataArray = [],
-    // interimSentence = '',
-    // finalSentence = ''
-    // internCurrentHoCount = 0,
-    // internTotalHoCount = 0,
-    // publicTotalHoCount = 0;
 
 let params = {
     startedRecording: false,
@@ -61,12 +51,6 @@ const constraints = {
 const AudioStreamer = {
 
     //================= RECORDING =================
-    // initSpeechData: function () {
-    //     socket.on('speechData', function (data) {
-    //         // console.log(data.results[0].alternatives[0].transcript);
-    //         setSentenceState()
-    //     });
-    // },
 
     initRecording: function () {
         socket.emit('startGoogleCloudStream', ''); //init socket Google Speech Connection
@@ -101,12 +85,6 @@ const AudioStreamer = {
     },
 
     //================= INTERFACE =================
-    // var startButton = document.getElementById("startRecButton");
-    // startButton.addEventListener("click", startRecording);
-
-    // var endButton = document.getElementById("stopRecButton");
-    // endButton.addEventListener("click", stopRecording);
-    // endButton.disabled = true;
 
     startRecording: function () {
         console.log("Listening...")
@@ -173,10 +151,6 @@ const AudioStreamer = {
 
 
     // //================= OTHER STUFF =================
-
-    // window.onbeforeunload = () => {
-    //     if (streamStreaming) { socket.emit('endGoogleCloudStream', ''); }
-    // };
 
     downsampleBuffer: function (buffer, sampleRate, outSampleRate) {
         if (outSampleRate === sampleRate) {

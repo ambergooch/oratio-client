@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import { Route, withRouter } from "react-router-dom"
 import Register from "./auth/Register"
 import Login from "./auth/Login"
-import Dictaphone from "./transcription/Dictaphone"
 import Output from "./transcription/Output"
 import LandingPage from "./landing/LandingPage"
 import SpeechHistory from "./speech/SpeechHistory"
@@ -13,22 +12,6 @@ const ApplicationViews = (props) => {
     const [interimSentence, setInterimSentence] = useState('')
     const [finalSentence, setFinalSentence] = useState('')
     const [finalOutput, setFinalOutput] = useState('')
-    const [currentSpeech, setCurrentSpeech] = useState([{}])
-
-    const getCurrentSpeech = () => {
-        fetch('http://localhost:8000/speeches?incomplete=true', {
-            "method": "GET",
-            "headers": {
-            "Accept": "application/json",
-            "Content-Type": "application/json",
-            "Authorization": `Token ${localStorage.getItem("oratio_token")}`
-            }
-        })
-        .then(response => response.json())
-        .then((response) => {
-            setCurrentSpeech(response)
-        })
-    }
 
     const convertToMinutesAndSeconds = (mil) => {
         const minutes = Math.floor(mil / 60000);
@@ -38,7 +21,6 @@ const ApplicationViews = (props) => {
     }
 
     window.newSentenceState = (data) => {
-        // console.log(data.results[0].alternatives[0].transcript);
         var dataFinal = undefined || data.results[0].isFinal;
         if (dataFinal === false) {
             let interimString = data.results[0].alternatives[0].transcript;
@@ -54,10 +36,6 @@ const ApplicationViews = (props) => {
             setFinalOutput(finalOutput.concat(' ', finalString))
         }
     };
-
-    useEffect(getCurrentSpeech, [])
-
-    console.log(currentSpeech)
 
     return (
         <React.Fragment>
@@ -92,8 +70,6 @@ const ApplicationViews = (props) => {
                         interimSentence={interimSentence}
                         finalSentence={finalSentence}
                         finalOutput={finalOutput}
-                        getCurrentSpeech={getCurrentSpeech}
-                        currentSpeech={currentSpeech}
                     />
                 }}
             />
@@ -104,8 +80,6 @@ const ApplicationViews = (props) => {
                         interimSentence={interimSentence}
                         finalSentence={finalSentence}
                         finalOutput={finalOutput}
-                        getCurrentSpeech={getCurrentSpeech}
-                        currentSpeech={currentSpeech}
                     />
                 }}
             />

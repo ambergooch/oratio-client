@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import APIManager from "../modules/APIManager";
 import EventForm from "./EventForm"
@@ -7,9 +7,6 @@ const EventSelector = props => {
 
     const [eventList, setEventList] = useState([])
     const [show, setShow] = useState(false)
-
-    const event = useRef();
-    const name = useRef()
 
     const addEvent = () => {
         setShow(!show)
