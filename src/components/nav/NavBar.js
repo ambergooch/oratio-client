@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
 import useSimpleAuth from "../../hooks/ui/useSimpleAuth"
-import APIManager from '../modules/APIManager'
 import 'semantic-ui-css/semantic.min.css'
 import { Menu, Container, Dropdown, Icon } from 'semantic-ui-react'
 
@@ -9,18 +8,10 @@ const NavBar = props => {
 
     const { isAuthenticated, logout } = useSimpleAuth()
     const [activeItem, setActiveItem] = useState('')
-    const [user, setUser] = useState([])
+    const [currentUser, setCurrentUser] = useState([])
 
     const handleItemClick = (e, { name }) => setActiveItem(name)
 
-    const getUser = () => {
-      if (isAuthenticated()) {
-        APIManager.get("users").then(user => {
-          console.log(user)
-          setUser(user);
-        });
-      }
-    }
     const getCurrentUser = () => {
       if (isAuthenticated()) {
         fetch('http://localhost:8000/users?currentuser=true', {
@@ -33,7 +24,7 @@ const NavBar = props => {
         })
         .then(response => response.json())
         .then((response) => {
-            setUser(response)
+            setCurrentUser(response)
         })
       }
     }
@@ -44,8 +35,6 @@ const NavBar = props => {
     }
 
     useEffect(getCurrentUser, [])
-
-    console.log(activeItem)
       return (
         <>
           <Menu borderless stackable color="purple" style={{position: 'sticky', top: 0, zIndex: 5, marginBottom: 2, boxShadow: "3px 3px 10px black" }}>
@@ -78,7 +67,8 @@ const NavBar = props => {
                   <Menu.Item className='' position='right' onClick={handleItemClick} style={{ marginRight: '.5em'}}>
                   </Menu.Item>
                   <Menu.Item style={{padding: '4px', border: 'none'}}>
-                      {user.map(user => {
+                      {currentUser.map(user => {
+                        console.log(user)
                         return <strong key={user.id}>{user.first_name} {user.last_name}</strong>
                       })}
                   </Menu.Item>

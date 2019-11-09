@@ -218,7 +218,7 @@ console.log(wordCount)
             <Highlighter
                 id="content"
                 highlightClassName="highlighted-words"
-                searchWords={["like", " so ", "okay", "you know"]}
+                searchWords={["like", " so ", "well"]}
                 autoEscape={true}
                 textToHighlight={props.finalOutput}
                 highlightStyle={{backgroundColor: '#f8d129', color: 'white'}}

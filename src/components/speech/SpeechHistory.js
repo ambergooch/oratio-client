@@ -1,24 +1,15 @@
-import React, { useEffect, useState, useRef } from "react";
-import APIManager from "../modules/APIManager";
-import SpeechDetails from "./SpeechDetails"
-import { Checkbox, Grid } from 'semantic-ui-react'
-import Slider from 'react-animated-slider';
+import React, { useEffect, useState } from "react";
+import { Checkbox } from 'semantic-ui-react'
 
 
 const SpeechHistory = props => {
 
-  const [allSpeeches, setSpeeches] = useState([])
   const [completedSpeeches, setCompletedSpeeches] = useState([])
   const [populatedEvents, setPopulatedEvents] = useState([])
   const [byEvent, setByEvent] = useState(false)
 
   const handleToggle = () => {
     setByEvent(!byEvent)
-  }
-
-  const getSpeeches = () => {
-    APIManager.get("speeches")
-    .then(setSpeeches)
   }
 
   const getCompletedSpeeches = () => {
@@ -52,12 +43,10 @@ const SpeechHistory = props => {
   }
 
   useEffect(() => {
-    getSpeeches()
     getCompletedSpeeches()
     getEventsWithSpeeches()
   }, [])
 
-  console.log(props)
   return (
       <>
         <div className="speech-items" style={{paddingTop: 20, paddingLeft: 30}}>
@@ -78,24 +67,18 @@ const SpeechHistory = props => {
                 <div>
                 {populatedEvents.map(event => {
                   return (
-                    <div key={event.id}>
-                      <ul>{event.name}</ul>
+                    <div key={event.id} style={{margin: 30}}>
+                      <h3>{event.name}</h3>
                       {event.speeches.filter(speech => {
                         return speech.actual_time !== null
                       })
                       .map(speech => {
                         return (
-                          // <Slider className='history-slider'>
-                            <Grid relaxed columns={4}>
-                              <Grid.Column>
-                                <a href={`/speeches/${speech.id}`}><h3>{speech.title}</h3></a>
-
-                              </Grid.Column>
-                            </Grid>
-                            /* <div style={{width: '50%', height: '50%'}}>
-
-                            </div> */
-                          /* </Slider> */
+                          <ul key={speech.id}>
+                            <li>
+                              <a href={`/speeches/${speech.id}`}><h4>{speech.title}</h4></a>
+                            </li>
+                          </ul>
                         )
                       })}
                     </div>

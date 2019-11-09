@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import useSimpleAuth from "../../hooks/ui/useSimpleAuth";
 import APIManager from "../modules/APIManager"
-import { Button, Header, Image, Modal, Divider, Transition, Form, TextArea } from 'semantic-ui-react'
+import { Button, Modal, Form, TextArea } from 'semantic-ui-react'
 import EventSelector from '../event/EventSelector'
 
 
@@ -65,18 +65,6 @@ const EditSpeechForm = props => {
 
   return (
     <>
-      <style>
-      {`
-          .ui.dimmer {
-              transition: background-color 0.5s ease;
-              background-color: transparent;
-          }
-
-          .edit-modal .ui.dimmer {
-              background-color: purple;
-          }
-      `}
-      </style>
       <div>
         <Modal
             className="edit-modal"

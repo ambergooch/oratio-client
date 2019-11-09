@@ -2,7 +2,7 @@ import React, {useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import APIManager from '../modules/APIManager'
 import EditSpeechModal from "./EditSpeechModal"
-import { Modal, Button, Header, Icon, Message, Step } from 'semantic-ui-react'
+import { Modal, Button, Header, Icon, Message } from 'semantic-ui-react'
 import Highlighter from 'react-highlight-words'
 import moment from 'moment'
 import './SpeechDetails.css'
@@ -22,10 +22,6 @@ const SpeechDetails = props => {
         setOpen(true)
     }
 
-    const handleClose = () => {
-        setOpen(false)
-    }
-
     const handleDeleteOpen = () => {
         setDeleteOpen(!deleteOpen)
     }
@@ -42,7 +38,8 @@ const SpeechDetails = props => {
           })
     }
 
-    const deleteSpeech = (id) => {
+    const deleteSpeech = () => {
+        id = props.match.params.speechId
         APIManager.delete("speeches", id)
         .then(() => {
           props.history.push("/speeches")
@@ -58,7 +55,6 @@ const SpeechDetails = props => {
         getSingleSpeech()
     }, [])
 
-    console.log(moment(timeDifference))
     return (
         <>
             {
@@ -73,7 +69,7 @@ const SpeechDetails = props => {
                             icon="chevron left"
                             labelPosition="left"
                             content="View all speeches"
-                            style={{float: 'right', display: 'block', marginLeft: 20, marginTop: 20, borderRadius: 0}}
+                            style={{float: 'right', display: 'block', marginRight: 20, marginLeft: 20, marginTop: 20, borderRadius: 0}}
                         />
                         </div>
                         <h3 className="speech-title">{singleSpeech.title}</h3>
@@ -109,7 +105,7 @@ const SpeechDetails = props => {
                     <div className="speech-report">
                         <div className='label-div'>
                             <h5 className='time-label'>Set time</h5>
-                            <h5 className='time-label'>Actual time</h5>
+                            <h5 className='time-label-offset'>Actual time</h5>
                             <h5 className='time-label'>Difference</h5>
                         </div>
                         <div className="time">
@@ -129,17 +125,25 @@ const SpeechDetails = props => {
                                 {timeDifference}
                             </Message>
                         </div>
-                        <Message floating compact style={{width: 800, marginLeft: 30, marginTop: 40}}>
+                        <Message floating compact style={{width: 900, marginLeft: 170, marginTop: 40, marginRight: 200}}>
                             <Highlighter
                                 // id="content"
                                 highlightClassName="highlighted-words"
-                                searchWords={["like", " so ", "okay", "you know"]}
+                                searchWords={["like", " so ", "well"]}
                                 autoEscape={true}
                                 textToHighlight={singleSpeech.transcript}
                                 highlightStyle={{backgroundColor: '#f8d129', color: 'white'}}
                             />
                         </Message>
                         <br/>
+                        <Button
+                            onClick={handleOpen}
+                            size="tiny"
+                            color="purple"
+                            style={{float: 'right', marginRight: '190px', marginBottom: '30px', borderRadius: 0}}
+                        >
+                            Edit
+                        </Button>
                         <div className="chart chart--dev">
                             <span className="chart__title">Filler Words</span>
                             <ul className="chart--horiz">
@@ -158,15 +162,6 @@ const SpeechDetails = props => {
                             </ul>
                         </div>
                         <EditSpeechModal {...props} open={open} setOpen={setOpen} />
-
-                        <Button
-                            onClick={handleOpen}
-                            size="tiny"
-                            color="purple"
-                            style={{float: 'left', marginRight: '30px', marginBottom: '30px', borderRadius: 0}}
-                        >
-                            Edit
-                        </Button>
                     </div>
 
               </section>

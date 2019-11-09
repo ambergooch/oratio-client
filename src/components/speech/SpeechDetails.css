@@ -59,7 +59,11 @@
 .time-label {
     display: inline;
     margin-right: 90px;
-    /* padding-left: 10px; */
+}
+
+.time-label-offset {
+    display: inline;
+    margin-right: 65px;
 }
 
 .label-div {

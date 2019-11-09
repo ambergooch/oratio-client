@@ -36,10 +36,10 @@
     animation: 1s anim-lightspeed-in ease forwards;
 }
 .chart--prod .chart__title {
-    animation-delay: 3.3s;
+    animation-delay: 4.3s;
 }
 .chart--design .chart__title {
-    animation-delay: 4.5s;
+    animation-delay: 5.5s;
 }
 .chart--horiz {
     overflow: hidden;
@@ -108,6 +108,9 @@
 }
 .chart__word {
     display: inline;
+    animation: 1s anim-lightspeed-in ease forwards;
+    animation-delay: 1.3s;
+
 }
 .chart__label {
     display: inline;

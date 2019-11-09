@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import { Route, withRouter } from "react-router-dom"
 import Register from "./auth/Register"
 import Login from "./auth/Login"
@@ -36,8 +36,6 @@ const ApplicationViews = (props) => {
             setFinalOutput(finalOutput.concat(' ', finalString))
         }
     };
-
-    console.log(convertToMinutesAndSeconds(-100000))
 
     return (
         <React.Fragment>
